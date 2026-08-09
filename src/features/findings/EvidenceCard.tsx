@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { EvidenceIcon } from './Evidenceicon';
+import { EvidenceIcon } from './EvidenceIcon';
 import type { Evidence } from '@/types/analysis';
 
 interface EvidenceCardProps {
