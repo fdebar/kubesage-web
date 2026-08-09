@@ -1,0 +1,70 @@
+@theme {
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Brand */
+  --color-primary: oklch(0.63 0.21 258);
+  --color-primary-foreground: oklch(0.98 0 0);
+
+  /* Background */
+  --color-background: oklch(0.145 0.004 260);
+  --color-surface: oklch(0.18 0.004 260);
+  --color-card: oklch(0.205 0.004 260);
+
+  /* Text */
+  --color-foreground: oklch(0.985 0 0);
+  --color-muted-foreground: oklch(0.71 0 0);
+
+  /* Borders */
+  --color-border: oklch(0.29 0.004 260);
+
+  /* Semantic */
+
+  --color-success: oklch(0.72 0.18 150);
+  --color-warning: oklch(0.82 0.16 90);
+  --color-danger: oklch(0.63 0.23 27);
+  --color-info: oklch(0.7 0.16 250);
+
+  /* =====================
+     KubeSage Design Tokens
+     ===================== */
+
+  /* Layout */
+  --ks-page-background: var(--color-background);
+  --ks-surface: var(--color-surface);
+  --ks-card: var(--color-card);
+
+  /* Typography */
+
+  --ks-text-primary: var(--color-foreground);
+  --ks-text-secondary: var(--color-muted-foreground);
+
+  /* Borders */
+
+  --ks-border: var(--color-border);
+
+  /* Status */
+
+  --ks-status-healthy: var(--color-success);
+  --ks-status-warning: var(--color-warning);
+  --ks-status-critical: var(--color-danger);
+  --ks-status-info: var(--color-info);
+
+  /* Spacing */
+
+  --ks-spacing-page: 2rem;
+  --ks-spacing-section: 1.5rem;
+
+  /* Radius */
+
+  --ks-radius-card: 0.5rem;
+
+  --color-severity-critical: oklch(0.55 0.22 25);
+  --color-severity-high: oklch(0.65 0.18 50);
+  --color-severity-medium: oklch(0.75 0.15 90);
+  --color-severity-low: oklch(0.7 0.12 150);
+
+  --color-status-healthy: oklch(0.7 0.15 150);
+  --color-status-warning: oklch(0.75 0.15 90);
+  --color-status-error: oklch(0.55 0.22 25);
+}

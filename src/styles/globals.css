@@ -1,0 +1,57 @@
+@import './theme.css';
+
+@import '@fontsource-variable/geist';
+
+@import 'tailwindcss';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+:root {
+  --color-accent: hsl(210 40% 96.1%);
+  --color-accent-foreground: hsl(222.2 47.4% 11.2%);
+
+  --color-muted: hsl(210 40% 96.1%);
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+
+  font-family: 'Geist Variable', sans-serif;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+button {
+  cursor: pointer;
+}
+
+@layer utilities {
+  .ks-page {
+    background: var(--ks-page-background);
+    color: var(--ks-text-primary);
+  }
+
+  .ks-card {
+    background: var(--ks-card);
+    border-color: var(--ks-border);
+    border-radius: var(--ks-radius-card);
+  }
+
+  .ks-muted {
+    color: var(--ks-text-secondary);
+  }
+}

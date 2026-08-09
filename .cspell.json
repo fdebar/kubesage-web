@@ -1,0 +1,14 @@
+{
+  "version": "0.2",
+  "language": "en,fr",
+  "words": [
+    "KubeSage",
+    "Kubernetes",
+    "Prometheus",
+    "Grafana",
+    "OpenTelemetry",
+    "shadcn",
+    "TanStack"
+  ],
+  "ignorePaths": ["node_modules/**", "dist/**"]
+}
