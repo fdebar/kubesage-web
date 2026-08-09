@@ -85,11 +85,11 @@ The frontend currently provides several views for exploring the state of the clu
 
 The **Dashboard** provides a high-level overview of the system:
 
-* overall cluster status;
-* resource and incident counts;
-* findings summary;
-* key indicators;
-* overall KubeSage status.
+- overall cluster status;
+- resource and incident counts;
+- findings summary;
+- key indicators;
+- overall KubeSage status.
 
 ### Findings
 
@@ -97,11 +97,11 @@ The **Findings** view allows users to explore issues detected by the KubeSage an
 
 Findings can represent issues detected at different levels, including:
 
-* pods;
-* containers;
-* Kubernetes resources;
-* metrics;
-* events.
+- pods;
+- containers;
+- Kubernetes resources;
+- metrics;
+- events.
 
 ### Analyses
 
@@ -109,11 +109,11 @@ The **Analyses** view provides access to analyses performed by KubeSage and thei
 
 An analysis can rely on:
 
-* Kubernetes resource state;
-* Prometheus metrics;
-* available logs and events;
-* diagnostic rules;
-* correlations between multiple findings.
+- Kubernetes resource state;
+- Prometheus metrics;
+- available logs and events;
+- diagnostic rules;
+- correlations between multiple findings.
 
 ### History
 
@@ -149,9 +149,9 @@ The frontend depends on the **KubeSage API**, which exposes the endpoints requir
 
 The frontend and backend are intentionally maintained as separate repositories in order to keep a clear separation between:
 
-* **Frontend** → user interface and data exploration;
-* **API** → business logic, analysis, and data access;
-* **Infrastructure** → Kubernetes, Prometheus, PostgreSQL, and observability.
+- **Frontend** → user interface and data exploration;
+- **API** → business logic, analysis, and data access;
+- **Infrastructure** → Kubernetes, Prometheus, PostgreSQL, and observability.
 
 This separation allows the frontend and backend to evolve and be deployed independently while communicating through a well-defined HTTP API.
 
@@ -163,8 +163,8 @@ This separation allows the frontend and backend to evolve and be deployed indepe
 
 Make sure the following are installed:
 
-* Node.js
-* npm
+- Node.js
+- npm
 
 Check your installed versions:
 
@@ -318,14 +318,14 @@ The frontend will evolve alongside KubeSage's analysis capabilities.
 
 Planned improvements include:
 
-* richer dashboard visualizations;
-* improved findings exploration;
-* deeper analysis and incident context;
-* detailed incident history;
-* integration with traces and observability data;
-* visualization of correlations between findings;
-* improved incident investigation workflows;
-* progressive integration of KubeSage's AI-assisted analysis capabilities.
+- richer dashboard visualizations;
+- improved findings exploration;
+- deeper analysis and incident context;
+- detailed incident history;
+- integration with traces and observability data;
+- visualization of correlations between findings;
+- improved incident investigation workflows;
+- progressive integration of KubeSage's AI-assisted analysis capabilities.
 
 The long-term goal is to evolve the interface from a simple dashboard into a **dedicated Kubernetes incident investigation console**.
 
