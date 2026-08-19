@@ -1,5 +1,5 @@
 import { Activity, Clock3, Settings, ShieldCheck } from '@/lib/icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useDashboard } from '@/hooks/useDashboard';
 
 const navigation = [
@@ -27,6 +27,7 @@ const navigation = [
 
 export function Sidebar() {
   const { data } = useDashboard();
+  const location = useLocation();
   const status = data?.cluster.status ?? 'Unknown';
   const color = status === 'healthy' ? 'text-emerald-400' : 'text-red-400';
 
@@ -46,12 +47,17 @@ export function Sidebar() {
             <NavLink
               key={item.label}
               to={item.path}
-              className={({ isActive }) =>
-                `flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition ${
-                  isActive
-                    ? 'bg-zinc-900 text-zinc-100'
-                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
-                } `
+              className={({ isActive }) => {
+                const isHistoryActive =
+                  item.path === '/history' &&
+                  location.pathname.startsWith('/analyses/');
+
+                const active = isActive || isHistoryActive;
+                return `flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition ${active
+                  ? 'bg-zinc-900 text-zinc-100'
+                  : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
+                  } `
+              }
               }
             >
               <Icon className="size-4" />

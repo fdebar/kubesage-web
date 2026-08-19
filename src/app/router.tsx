@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { FindingsPage } from '@/features/findings/FindingsPage';
-import { AnalysisPage } from '@/features/analyses/AnalysisPage';
 import { HistoryPage } from '@/features/history/HistoryPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { AppShell } from '@/components/layout/AppShell';
@@ -14,10 +13,6 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <DashboardPage />,
-      },
-      {
-        path: '/analyses',
-        element: <AnalysisPage />,
       },
       {
         path: '/analyses/:id',

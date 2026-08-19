@@ -6,6 +6,7 @@ import { AnalysisHeader } from '@/features/analyses/AnalysisHeader';
 import { AIReportCard } from '@/features/analyses/AIReportCard';
 import { FindingCard } from '@/features/findings/FindingCard';
 import { IncidentSummaryCard } from '@/features/analyses/IncidentSummaryCard';
+import { Link } from 'react-router-dom';
 
 export function AnalysisDetailPage() {
   const { id } = useParams();
@@ -21,6 +22,15 @@ export function AnalysisDetailPage() {
 
   return (
     <div className="space-y-6">
+
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm">
+        <Link to="/history" className="text-zinc-500 transition hover:text-zinc-100">
+          History
+        </Link>
+        <span className="text-zinc-700">/</span>
+        <span className="text-zinc-300">Analysis #{id}</span>
+      </nav>
+
       <AnalysisHeader analysis={analysis} />
 
       <IncidentSummaryCard analysis={analysis} />
