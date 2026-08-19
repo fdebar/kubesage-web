@@ -18,6 +18,6 @@ export const settingsMock: Settings = {
     provider: 'ollama',
     endpoint: 'http://localhost:11434/v1',
     model: 'qwen2.5-coder:14b',
-    apiKeyConfigured: true,
+    api_key_configured: true,
   },
 };
