@@ -1,39 +1,37 @@
-import { useState } from 'react';
-
 import { PageHeader } from '@/components/common/PageHeader';
 import { Card, CardContent } from '@/components/ui/card';
 import { ServiceCard } from '@/components/ServiceCard';
 
-import type { ServiceTestResult } from '@/types/serviceTestResult';
 import { AIProviderCard } from '@/components/AIProviderCard';
-import { aiProvider } from '@/mocks/aiprovider';
+import { useSettings } from '@/hooks/useSettings';
+import { useState } from 'react';
+import type { ServiceTestResult } from '@/types/serviceTestResult';
 
-const observabilityServices = [
-  {
+const observabilityMetadata = {
+  prometheus: {
     name: 'Prometheus',
     description: 'Metrics and alerting',
-    url: 'http://prometheus.monitoring:9090',
   },
-  {
+  loki: {
     name: 'Loki',
     description: 'Logs',
-    url: 'http://loki.monitoring:3100',
   },
-  {
-    name: 'Grafana',
-    description: 'Metrics and dashboards',
-    url: 'http://grafana.monitoring:3000',
-  },
-  {
+  opentelemetry: {
     name: 'OpenTelemetry',
     description: 'Telemetry collection',
-    url: 'http://alloy.monitoring:4318',
   },
-];
+};
+
+const aiMetadata = {
+  name: 'OpenAI-compatible',
+  description: 'AI provider for incident analysis',
+};
 
 export function SettingsPage() {
   const [testResults, setTestResults] = useState<Record<string, ServiceTestResult>>({});
   const [aiProviderTestResult, setAiProviderTestResult] = useState<ServiceTestResult>();
+
+  const { data, isLoading, error } = useSettings();
 
   const handleTest = (serviceName: string) => {
     setTestResults((current) => ({
@@ -74,6 +72,25 @@ export function SettingsPage() {
       });
     }, 1000);
   };
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        <PageHeader title="Settings" description="Configure KubeSage" />
+
+        <p className="text-muted-foreground text-sm">Loading settings...</p>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="space-y-8">
+        <PageHeader title="Settings" description="Configure KubeSage" />
+
+        <p className="text-destructive text-sm">Failed to load settings.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -89,12 +106,12 @@ export function SettingsPage() {
           <CardContent className="grid gap-4 sm:grid-cols-2">
             <div>
               <p className="text-muted-foreground text-sm">Environment</p>
-              <p className="font-medium">Production</p>
+              <p className="font-medium">{data.environment}</p>
             </div>
 
             <div>
               <p className="text-muted-foreground text-sm">Version</p>
-              <p className="font-medium">v0.1.0</p>
+              <p className="font-medium">v{data.version}</p>
             </div>
           </CardContent>
         </Card>
@@ -109,12 +126,14 @@ export function SettingsPage() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          {observabilityServices.map((service) => (
+          {Object.entries(observabilityMetadata).map(([serviceKey, metadata]) => (
             <ServiceCard
-              key={service.name}
-              {...service}
-              testResult={testResults[service.name]}
-              onTest={() => handleTest(service.name)}
+              key={serviceKey}
+              name={metadata.name}
+              description={metadata.description}
+              url={data.observability[serviceKey as keyof typeof data.observability].endpoint}
+              testResult={testResults[serviceKey]}
+              onTest={() => handleTest(serviceKey)}
             />
           ))}
         </div>
@@ -129,7 +148,11 @@ export function SettingsPage() {
         </div>
 
         <AIProviderCard
-          {...aiProvider}
+          name={aiMetadata.name}
+          description={aiMetadata.description}
+          endpoint={data.ai.endpoint}
+          model={data.ai.model}
+          apiKeyConfigured={data.ai.api_key_configured}
           testResult={aiProviderTestResult}
           onTest={handleAIProviderTest}
         />

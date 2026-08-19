@@ -68,8 +68,7 @@ export function ServiceCard({ name, description, url, testResult, onTest }: Serv
         <div className="space-y-4">
           <div>
             <p className="text-muted-foreground mb-1 text-xs font-medium">Endpoint</p>
-
-            <p className="truncate font-mono text-sm">{url}</p>
+            <p className="truncate font-mono text-sm">{url || 'Not configured'}</p>
           </div>
 
           {testResult && status !== 'testing' && (
