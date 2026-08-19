@@ -19,7 +19,7 @@ export async function get(id: string): Promise<AnalysisDetail> {
     throw new Error(`Demo analysis not found: ${id}`);
   }
 
-  const response = await apiClient.get(`/api/v1/analysis/${id}`);
+  const response = await apiClient.get(`/analysis/${id}`);
 
   return response.data;
 }
@@ -33,7 +33,7 @@ export async function list(page = 1, pageSize = 20): Promise<AnalysisListRespons
     };
   }
 
-  const response = await apiClient.get('/api/v1/analysis', { params: { page, pageSize } });
+  const response = await apiClient.get('/analysis', { params: { page, pageSize } });
 
   return response.data;
 }

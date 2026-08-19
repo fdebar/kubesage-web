@@ -9,7 +9,10 @@ export function FindingsPage() {
   const { data, isLoading, error } = useFindings();
 
   if (isLoading) return <LoadingState />;
-  if (error) return <EmptyState title="Unable to load findings" description="The findings API is unavailable" />;
+  if (error)
+    return (
+      <EmptyState title="Unable to load findings" description="The findings API is unavailable" />
+    );
   if (!data) return <EmptyState title="No Findings" description="No findings data was returned" />;
 
   return (

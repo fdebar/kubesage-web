@@ -6,7 +6,7 @@ import { mockFindings } from '@/mocks/findings';
 export async function getFindings(page = 1, pageSize = 20): Promise<PaginatedResponse<Finding>> {
   if (isDemoMode) return mockFindings;
 
-  const response = await apiClient.get(`/api/v1/findings?page=${page}&page_size=${pageSize}`);
+  const response = await apiClient.get(`/findings?page=${page}&page_size=${pageSize}`);
 
   return response.data;
 }

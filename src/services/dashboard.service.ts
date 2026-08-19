@@ -6,7 +6,7 @@ import { dashboardOverviewMock } from '@/mocks/dashboard-overview';
 export async function getDashboardOverview(): Promise<DashboardOverview> {
   if (isDemoMode) return dashboardOverviewMock;
 
-  const response = await apiClient.get('/api/v1/dashboard/overview');
+  const response = await apiClient.get('/dashboard/overview');
 
   return response.data;
 }

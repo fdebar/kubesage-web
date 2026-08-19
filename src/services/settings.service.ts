@@ -10,7 +10,7 @@ export type SettingsService = 'prometheus' | 'loki' | 'opentelemetry' | 'ai';
 export async function getSettings(): Promise<Settings> {
   if (isDemoMode) return settingsMock;
 
-  const response = await apiClient.get('/api/v1/settings');
+  const response = await apiClient.get('/settings');
 
   return response.data;
 }
@@ -18,7 +18,7 @@ export async function getSettings(): Promise<Settings> {
 export async function testService(service: SettingsService): Promise<ServiceTestResult> {
   if (isDemoMode) return settingsServiceTestMock;
 
-  const response = await apiClient.post(`/api/v1/settings/services/${service}/test`);
+  const response = await apiClient.post(`/settings/services/${service}/test`);
 
   return response.data;
 }
