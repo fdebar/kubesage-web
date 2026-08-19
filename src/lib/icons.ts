@@ -1,8 +1,10 @@
 export {
   Activity,
   AlertTriangle,
+  ArrowLeft,
   Bell,
   Box,
+  Bot,
   Brain,
   CheckCircle2,
   Clock3,
@@ -13,6 +15,7 @@ export {
   Search,
   Settings,
   ShieldAlert,
+  SearchX,
   ShieldCheck,
   TriangleAlert,
 } from 'lucide-react';
