@@ -12,20 +12,20 @@
   A web interface for exploring cluster health, findings and incident analyses with KubeSage.
 </p>
 
-<p align="center">
+<h4 align="center">
 
 ![React](https://img.shields.io/badge/React-19-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4)
 
-![Prettier](https://img.shields.io/badge/Prettier-Formatted-F7B93E?logo=prettier\&logoColor=white)
-![ESLint](https://img.shields.io/badge/ESLint-Linted-4B32C3?logo=eslint\&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-Formatted-F7B93E?logo=prettier&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-Linted-4B32C3?logo=eslint&logoColor=white)
 ![Spellcheck](https://img.shields.io/badge/Spellcheck-Enabled-4285F4)
 
 [![CI](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml)
 
-</p>
+</h4>
 
 ---
 
@@ -99,11 +99,11 @@ The History view provides access to previously performed analyses and allows eng
 
 The Dashboard provides an overview of the current state of the environment, including:
 
-* cluster health;
-* resource information;
-* incident and finding counts;
-* findings summary;
-* key KubeSage indicators.
+- cluster health;
+- resource information;
+- incident and finding counts;
+- findings summary;
+- key KubeSage indicators.
 
 The goal is to provide enough context to quickly identify whether further investigation is required.
 
@@ -113,12 +113,12 @@ Findings represent issues detected by KubeSage's diagnostic engine.
 
 They can be associated with different Kubernetes resources and signals, including:
 
-* Pods;
-* containers;
-* workloads;
-* resource usage;
-* Kubernetes events;
-* diagnostic rules.
+- Pods;
+- containers;
+- workloads;
+- resource usage;
+- Kubernetes events;
+- diagnostic rules.
 
 Findings are presented in a structured way so that engineers can quickly identify the most relevant problems.
 
@@ -128,13 +128,13 @@ The Analysis view presents the results of an individual KubeSage investigation.
 
 An analysis can combine information from multiple sources:
 
-* Kubernetes resources;
-* Prometheus metrics;
-* logs;
-* events;
-* diagnostic rules;
-* correlations between findings;
-* AI-assisted analysis.
+- Kubernetes resources;
+- Prometheus metrics;
+- logs;
+- events;
+- diagnostic rules;
+- correlations between findings;
+- AI-assisted analysis.
 
 This is intended to provide context rather than simply report an isolated alert.
 
@@ -156,18 +156,18 @@ The frontend includes a **Demo Mode** powered by local mock data.
 
 Demo Mode makes it possible to explore the application without running:
 
-* a Kubernetes cluster;
-* the KubeSage API;
-* Prometheus;
-* the observability stack.
+- a Kubernetes cluster;
+- the KubeSage API;
+- Prometheus;
+- the observability stack.
 
 This is particularly useful for:
 
-* local frontend development;
-* UI development;
-* demonstrations;
-* screenshots;
-* evaluating the project without deploying the complete KubeSage platform.
+- local frontend development;
+- UI development;
+- demonstrations;
+- screenshots;
+- evaluating the project without deploying the complete KubeSage platform.
 
 Start the frontend locally and explore the interface using the included demo data.
 
@@ -260,8 +260,8 @@ This separation allows the frontend and backend to be developed, tested and depl
 
 Make sure the following are installed:
 
-* Node.js
-* npm
+- Node.js
+- npm
 
 Check your installed versions:
 
@@ -401,15 +401,15 @@ KubeSage Frontend will evolve alongside the platform's incident investigation ca
 
 Planned improvements include:
 
-* richer dashboard visualizations;
-* deeper incident context;
-* improved findings exploration;
-* richer analysis details;
-* visualization of finding correlations;
-* deeper integration with logs and traces;
-* improved incident investigation workflows;
-* expanded AI-assisted analysis;
-* additional observability context.
+- richer dashboard visualizations;
+- deeper incident context;
+- improved findings exploration;
+- richer analysis details;
+- visualization of finding correlations;
+- deeper integration with logs and traces;
+- improved incident investigation workflows;
+- expanded AI-assisted analysis;
+- additional observability context.
 
 The long-term goal is to evolve KubeSage from a monitoring-oriented interface into a **dedicated Kubernetes incident investigation console**.
 
