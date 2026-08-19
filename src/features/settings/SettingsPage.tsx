@@ -66,7 +66,7 @@ export function SettingsPage() {
     <div className="space-y-8">
       <PageHeader title="Settings" description="Configure KubeSage" />
 
-      <section className="space-y-4 w-full max-w-xl">
+      <section className="w-full max-w-xl space-y-4">
         <div>
           <h2 className="text-lg font-semibold">General</h2>
           <p className="text-muted-foreground text-sm">KubeSage configuration</p>
