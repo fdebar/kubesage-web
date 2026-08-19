@@ -23,7 +23,7 @@
 ![ESLint](https://img.shields.io/badge/ESLint-Linted-4B32C3?logo=eslint&logoColor=white)
 ![Spellcheck](https://img.shields.io/badge/Spellcheck-Enabled-4285F4)
 
-[![CI](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml)
+[![CI](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yaml)
 
 </h4>
 
