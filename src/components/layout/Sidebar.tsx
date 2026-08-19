@@ -1,4 +1,4 @@
-import { Activity, Brain, Clock3, Settings, ShieldCheck } from '@/lib/icons';
+import { Activity, Clock3, Settings, ShieldCheck } from '@/lib/icons';
 import { NavLink } from 'react-router-dom';
 import { useDashboard } from '@/hooks/useDashboard';
 
@@ -47,10 +47,9 @@ export function Sidebar() {
               key={item.label}
               to={item.path}
               className={({ isActive }) =>
-                `flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition ${
-                  isActive
-                    ? 'bg-zinc-900 text-zinc-100'
-                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
+                `flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition ${isActive
+                  ? 'bg-zinc-900 text-zinc-100'
+                  : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
                 } `
               }
             >
