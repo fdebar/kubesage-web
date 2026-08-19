@@ -16,9 +16,5 @@
     "ollama",
     "qwen"
   ],
-  "ignorePaths": [
-    "node_modules/**",
-    "dist/**",
-    "src/mocks/**"
-  ]
+  "ignorePaths": ["node_modules/**", "dist/**", "src/mocks/**"]
 }
