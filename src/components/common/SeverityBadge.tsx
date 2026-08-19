@@ -14,12 +14,12 @@ const labels: Record<Severity, string> = {
 };
 
 const styles: Record<Severity, string> = {
-  CRITICAL: 'bg-red-100 text-red-800',
-  HIGH: 'bg-orange-100 text-orange-800',
-  WARNING: 'bg-yellow-100 text-yellow-800',
-  LOW: 'bg-blue-100 text-blue-800',
-  INFO: 'bg-gray-100 text-gray-800',
-  NONE: 'bg-gray-100 text-gray-800',
+  CRITICAL: 'bg-red-500/10 text-red-600 dark:text-red-400',
+  HIGH: 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
+  WARNING: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
+  LOW: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+  INFO: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+  NONE: 'bg-gray-500/10 text-gray-600 dark:text-gray-400',
 };
 
 export function SeverityBadge({ severity }: SeverityBadgeProps) {

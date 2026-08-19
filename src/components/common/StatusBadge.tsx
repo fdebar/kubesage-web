@@ -5,14 +5,14 @@ interface StatusBadgeProps {
 }
 
 const styles: Record<Status, string> = {
-  running: 'bg-green-100 text-green-800',
-  pending: 'bg-yellow-100 text-yellow-800',
-  failed: 'bg-red-100 text-red-800',
-  succeeded: 'bg-blue-100 text-blue-800',
-  healthy: 'bg-green-100 text-green-800',
-  unhealthy: 'bg-red-100 text-red-800',
-  unknown: 'bg-gray-100 text-gray-800',
-  critical: 'bg-red-100 text-red-800',
+  running: 'bg-green-100/10 text-green-600 dark:text-green-400',
+  pending: 'bg-yellow-100/10 text-yellow-600 dark:text-yellow-400',
+  failed: 'bg-red-100/10 text-red-600 dark:text-red-400',
+  succeeded: 'bg-blue-100/10 text-blue-600 dark:text-blue-400',
+  healthy: 'bg-green-100/10 text-green-600 dark:text-green-400',
+  unhealthy: 'bg-red-100/10 text-red-600 dark:text-red-400',
+  unknown: 'bg-gray-100/10 text-gray-600 dark:text-gray-400',
+  critical: 'bg-red-100/10 text-red-600 dark:text-red-400',
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {

@@ -1,27 +1,12 @@
 import { Link } from 'react-router-dom';
 
 import { ExternalLink } from '@/lib/icons';
-import type { Finding, FindingSeverity } from '@/types/types';
+import type { Finding } from '@/types/types';
+import { SeverityBadge } from '@/components/common/SeverityBadge';
 
 interface FindingsTableProps {
   findings: Finding[];
 }
-
-const severityStyles: Record<FindingSeverity, string> = {
-  CRITICAL: 'bg-red-500/10 text-red-600 dark:text-red-400',
-  HIGH: 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
-  WARNING: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
-  LOW: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
-  INFO: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-};
-
-const severityLabels: Record<FindingSeverity, string> = {
-  CRITICAL: 'Critical',
-  HIGH: 'High',
-  WARNING: 'Warning',
-  LOW: 'Low',
-  INFO: 'Info',
-};
 
 function formatRelativeTime(value: string): string {
   const timestamp = new Date(value).getTime();
@@ -67,11 +52,7 @@ export function FindingsTable({ findings }: FindingsTableProps) {
             {findings.map((finding) => (
               <tr key={finding.id} className="hover:bg-muted/30 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${severityStyles[finding.severity.toUpperCase() as FindingSeverity]}`}
-                  >
-                    {severityLabels[finding.severity.toUpperCase() as FindingSeverity]}
-                  </span>
+                  <SeverityBadge severity={finding.severity} />
                 </td>
 
                 <td className="px-6 py-4">
