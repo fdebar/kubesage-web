@@ -1,6 +1,7 @@
 import { Activity, Clock3, Settings, ShieldCheck } from '@/lib/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDashboard } from '@/hooks/useDashboard';
+import { DemoBadge } from '@/components/ui/DemoBadge';
 
 const navigation = [
   {
@@ -43,9 +44,7 @@ export function Sidebar() {
             <div>
               <h1 className="text-[17px] font-semibold tracking-tight text-zinc-100">KubeSage</h1>
 
-              <p className="text-[11px] font-medium tracking-wider text-zinc-500 uppercase">
-                Kubernetes Intelligence
-              </p>
+              <DemoBadge />
             </div>
           </div>
 
