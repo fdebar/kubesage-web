@@ -8,7 +8,17 @@
     "Grafana",
     "OpenTelemetry",
     "shadcn",
-    "TanStack"
+    "TanStack",
+    "crashloop",
+    "oomkilled",
+    "daemonset",
+    "crashloop_backoff",
+    "ollama",
+    "qwen"
   ],
-  "ignorePaths": ["node_modules/**", "dist/**"]
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "src/mocks/**"
+  ]
 }
