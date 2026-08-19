@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 import type { ServiceStatus } from '@/types/serviceStatus';
-import type { ServiceTestResult } from '@/types/serviceTestResult';
 
 interface AIProviderCardProps {
   name: string;
@@ -12,7 +11,9 @@ interface AIProviderCardProps {
   endpoint: string;
   model: string;
   apiKeyConfigured: boolean;
-  testResult?: ServiceTestResult;
+  status: ServiceStatus;
+  latency?: number | null;
+  message?: string | null;
   onTest: () => void;
 }
 
@@ -52,10 +53,11 @@ export function AIProviderCard({
   endpoint,
   model,
   apiKeyConfigured,
-  testResult,
+  status,
+  latency,
+  message,
   onTest,
 }: AIProviderCardProps) {
-  const status = testResult?.status ?? 'unknown';
   const config = statusConfig[status];
   const StatusIcon = config.icon;
   const isTesting = status === 'testing';
@@ -78,36 +80,39 @@ export function AIProviderCard({
         <div className="space-y-4">
           <div>
             <p className="text-muted-foreground mb-1 text-xs font-medium">Endpoint</p>
-            <p className="truncate font-mono text-sm">{endpoint}</p>
+
+            <p className="truncate font-mono text-sm">{endpoint || 'Not configured'}</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <p className="text-muted-foreground mb-1 text-xs font-medium">Model</p>
-              <p className="font-mono text-sm">{model}</p>
+
+              <p className="font-mono text-sm">{model || 'Not configured'}</p>
             </div>
 
             <div>
               <p className="text-muted-foreground mb-1 text-xs font-medium">API Key</p>
+
               <p className="font-mono text-sm">
                 {apiKeyConfigured ? '••••••••••••••••' : 'Not configured'}
               </p>
             </div>
           </div>
 
-          {testResult && status !== 'testing' && (
-            <div className="text-muted-foreground flex items-center gap-4 text-xs">
-              <span>
-                Last checked{' '}
-                {testResult.checkedAt.toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </span>
-
-              {testResult.latencyMs !== undefined && <span>{testResult.latencyMs} ms</span>}
-            </div>
+          {message && status === 'disconnected' && (
+            <p className="text-destructive text-sm">{message}</p>
           )}
+
+          {status === 'connected' && message && (
+            <p className="text-muted-foreground text-sm">{message}</p>
+          )}
+
+          <div className="text-muted-foreground h-4 text-xs">
+            {status !== 'unknown' && status !== 'testing' && latency != null && (
+              <span>{latency} ms</span>
+            )}
+          </div>
 
           <div className="flex justify-end">
             <Button variant="outline" size="sm" onClick={onTest} disabled={isTesting}>

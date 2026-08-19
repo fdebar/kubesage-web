@@ -4,13 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 import type { ServiceStatus } from '@/types/serviceStatus';
-import type { ServiceTestResult } from '@/types/serviceTestResult';
 
 interface ServiceCardProps {
   name: string;
   description: string;
   url: string;
-  testResult?: ServiceTestResult;
+  status: ServiceStatus;
+  latency?: number | null;
+  message?: string | null;
   onTest: () => void;
 }
 
@@ -44,8 +45,15 @@ const statusConfig: Record<
   },
 };
 
-export function ServiceCard({ name, description, url, testResult, onTest }: ServiceCardProps) {
-  const status = testResult?.status ?? 'unknown';
+export function ServiceCard({
+  name,
+  description,
+  url,
+  status,
+  latency,
+  message,
+  onTest,
+}: ServiceCardProps) {
   const config = statusConfig[status];
   const StatusIcon = config.icon;
   const isTesting = status === 'testing';
@@ -68,22 +76,23 @@ export function ServiceCard({ name, description, url, testResult, onTest }: Serv
         <div className="space-y-4">
           <div>
             <p className="text-muted-foreground mb-1 text-xs font-medium">Endpoint</p>
+
             <p className="truncate font-mono text-sm">{url || 'Not configured'}</p>
           </div>
 
-          {testResult && status !== 'testing' && (
-            <div className="text-muted-foreground flex items-center gap-4 text-xs">
-              <span>
-                Last checked{' '}
-                {testResult.checkedAt.toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </span>
-
-              {testResult.latencyMs !== undefined && <span>{testResult.latencyMs} ms</span>}
-            </div>
+          {message && status === 'disconnected' && (
+            <p className="text-destructive text-sm">{message}</p>
           )}
+
+          {status === 'connected' && message && (
+            <p className="text-muted-foreground text-sm">{message}</p>
+          )}
+
+          <div className="text-muted-foreground h-4 text-xs">
+            {status !== 'unknown' && status !== 'testing' && latency != null && (
+              <span>{latency} ms</span>
+            )}
+          </div>
 
           <div className="flex justify-end">
             <Button variant="outline" size="sm" onClick={onTest} disabled={isTesting}>

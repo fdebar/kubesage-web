@@ -1,3 +1,4 @@
+import type { ServiceTestResult } from '@/types/serviceTestResult';
 import type { Settings } from '@/types/settings';
 
 export const settingsMock: Settings = {
@@ -20,4 +21,11 @@ export const settingsMock: Settings = {
     model: 'qwen2.5-coder:14b',
     api_key_configured: true,
   },
+};
+
+export const settingsServiceTestMock: ServiceTestResult = {
+  status: 'connected',
+  latency_ms: 12,
+  checked_at: new Date(),
+  message: null,
 };

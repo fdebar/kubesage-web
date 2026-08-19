@@ -1,77 +1,47 @@
-import { PageHeader } from '@/components/common/PageHeader';
-import { Card, CardContent } from '@/components/ui/card';
-import { ServiceCard } from '@/components/ServiceCard';
+import { useState } from 'react';
 
 import { AIProviderCard } from '@/components/AIProviderCard';
+import { PageHeader } from '@/components/common/PageHeader';
+import { ServiceCard } from '@/components/ServiceCard';
+import { Card, CardContent } from '@/components/ui/card';
+import { useSettingsServiceTest } from '@/hooks/useSettingsServiceTest';
 import { useSettings } from '@/hooks/useSettings';
-import { useState } from 'react';
+import type { SettingsService } from '@/services/settings.service';
+import type { ServiceStatus } from '@/types/serviceStatus';
 import type { ServiceTestResult } from '@/types/serviceTestResult';
 
-const observabilityMetadata = {
-  prometheus: {
-    name: 'Prometheus',
-    description: 'Metrics and alerting',
-  },
-  loki: {
-    name: 'Loki',
-    description: 'Logs',
-  },
-  opentelemetry: {
-    name: 'OpenTelemetry',
-    description: 'Telemetry collection',
-  },
-};
-
-const aiMetadata = {
-  name: 'OpenAI-compatible',
-  description: 'AI provider for incident analysis',
-};
-
 export function SettingsPage() {
-  const [testResults, setTestResults] = useState<Record<string, ServiceTestResult>>({});
-  const [aiProviderTestResult, setAiProviderTestResult] = useState<ServiceTestResult>();
-
   const { data, isLoading, error } = useSettings();
+  const serviceTest = useSettingsServiceTest();
+  const [testResults, setTestResults] = useState<
+    Partial<Record<SettingsService, ServiceTestResult>>
+  >({});
+  const [serviceStatuses, setServiceStatuses] = useState<
+    Partial<Record<SettingsService, ServiceStatus>>
+  >({});
 
-  const handleTest = (serviceName: string) => {
-    setTestResults((current) => ({
-      ...current,
-      [serviceName]: {
-        status: 'testing',
-        checkedAt: new Date(),
-      },
-    }));
+  const handleTest = async (service: SettingsService) => {
+    setServiceStatuses((current) => ({ ...current, [service]: 'testing' }));
 
-    setTimeout(() => {
-      const success = Math.random() > 0.2;
+    try {
+      const result = await serviceTest.mutateAsync(service);
+      setTestResults((current) => ({ ...current, [service]: result }));
+      setServiceStatuses((current) => ({ ...current, [service]: result.status }));
+    } catch {
+      setServiceStatuses((current) => ({ ...current, [service]: 'disconnected' }));
 
       setTestResults((current) => ({
         ...current,
-        [serviceName]: {
-          status: success ? 'connected' : 'disconnected',
-          checkedAt: new Date(),
-          latencyMs: success ? Math.floor(Math.random() * 100) + 20 : undefined,
+        [service]: {
+          status: 'disconnected',
+          latency_ms: null,
+          checked_at: new Date().toISOString(),
+          message: 'Unable to test service',
         },
       }));
-    }, 1000);
+    }
   };
 
-  const handleAIProviderTest = () => {
-    setAiProviderTestResult({
-      status: 'testing',
-      checkedAt: new Date(),
-    });
-
-    setTimeout(() => {
-      const success = Math.random() > 0.2;
-
-      setAiProviderTestResult({
-        status: success ? 'connected' : 'disconnected',
-        checkedAt: new Date(),
-        latencyMs: success ? Math.floor(Math.random() * 100) + 20 : undefined,
-      });
-    }, 1000);
-  };
   if (isLoading) {
     return (
       <div className="space-y-8">
@@ -126,16 +96,35 @@ export function SettingsPage() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          {Object.entries(observabilityMetadata).map(([serviceKey, metadata]) => (
-            <ServiceCard
-              key={serviceKey}
-              name={metadata.name}
-              description={metadata.description}
-              url={data.observability[serviceKey as keyof typeof data.observability].endpoint}
-              testResult={testResults[serviceKey]}
-              onTest={() => handleTest(serviceKey)}
-            />
-          ))}
+          <ServiceCard
+            name="Prometheus"
+            description="Metrics and alerting"
+            url={data.observability.prometheus.endpoint}
+            status={serviceStatuses.prometheus ?? 'unknown'}
+            latency={testResults.prometheus?.latency_ms}
+            message={testResults.prometheus?.message}
+            onTest={() => handleTest('prometheus')}
+          />
+
+          <ServiceCard
+            name="Loki"
+            description="Logs"
+            url={data.observability.loki.endpoint}
+            status={serviceStatuses.loki ?? 'unknown'}
+            latency={testResults.loki?.latency_ms}
+            message={testResults.loki?.message}
+            onTest={() => handleTest('loki')}
+          />
+
+          <ServiceCard
+            name="OpenTelemetry"
+            description="Telemetry collection"
+            url={data.observability.opentelemetry.endpoint}
+            status={serviceStatuses.opentelemetry ?? 'unknown'}
+            latency={testResults.opentelemetry?.latency_ms}
+            message={testResults.opentelemetry?.message}
+            onTest={() => handleTest('opentelemetry')}
+          />
         </div>
       </section>
 
@@ -148,13 +137,15 @@ export function SettingsPage() {
         </div>
 
         <AIProviderCard
-          name={aiMetadata.name}
-          description={aiMetadata.description}
+          name="OpenAI-compatible"
+          description="AI provider for incident analysis"
           endpoint={data.ai.endpoint}
           model={data.ai.model}
           apiKeyConfigured={data.ai.api_key_configured}
-          testResult={aiProviderTestResult}
-          onTest={handleAIProviderTest}
+          status={serviceStatuses.ai ?? 'unknown'}
+          latency={testResults.ai?.latency_ms}
+          message={testResults.ai?.message}
+          onTest={() => handleTest('ai')}
         />
       </section>
     </div>

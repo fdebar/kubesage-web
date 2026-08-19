@@ -2,6 +2,7 @@ import type { ServiceStatus } from './serviceStatus';
 
 export interface ServiceTestResult {
   status: ServiceStatus;
-  checkedAt: Date;
-  latencyMs?: number;
+  checked_at: string;
+  latency_ms: number | null;
+  message: string | null;
 }
