@@ -49,16 +49,15 @@ export function Sidebar() {
               to={item.path}
               className={({ isActive }) => {
                 const isHistoryActive =
-                  item.path === '/history' &&
-                  location.pathname.startsWith('/analyses/');
+                  item.path === '/history' && location.pathname.startsWith('/analyses/');
 
                 const active = isActive || isHistoryActive;
-                return `flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition ${active
-                  ? 'bg-zinc-900 text-zinc-100'
-                  : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
-                  } `
-              }
-              }
+                return `flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition ${
+                  active
+                    ? 'bg-zinc-900 text-zinc-100'
+                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
+                } `;
+              }}
             >
               <Icon className="size-4" />
               {item.label}

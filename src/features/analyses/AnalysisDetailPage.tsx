@@ -22,7 +22,6 @@ export function AnalysisDetailPage() {
 
   return (
     <div className="space-y-6">
-
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm">
         <Link to="/history" className="text-zinc-500 transition hover:text-zinc-100">
           History
