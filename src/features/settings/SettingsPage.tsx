@@ -20,11 +20,6 @@ const observabilityServices = [
     url: 'http://loki.monitoring:3100',
   },
   {
-    name: 'Tempo',
-    description: 'Distributed traces',
-    url: 'http://tempo.monitoring:3200',
-  },
-  {
     name: 'OpenTelemetry',
     description: 'Telemetry collection',
     url: 'http://alloy.monitoring:4318',

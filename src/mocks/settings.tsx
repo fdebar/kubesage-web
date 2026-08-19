@@ -12,12 +12,6 @@ export const services = [
     status: 'connected',
   },
   {
-    name: 'Tempo',
-    description: 'Distributed traces',
-    url: 'http://tempo.monitoring:3200',
-    status: 'connected',
-  },
-  {
     name: 'OpenTelemetry',
     description: 'Telemetry collection',
     url: 'http://alloy.monitoring:4318',
