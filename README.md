@@ -5,129 +5,175 @@
 </p>
 
 <p align="center">
-Web frontend for KubeSage, a platform designed to analyze and diagnose Kubernetes incidents.
+  <strong>Kubernetes incident investigation, powered by data and AI.</strong>
 </p>
 
-<h4 align="center">
+<p align="center">
+  A web interface for exploring cluster health, findings and incident analyses with KubeSage.
+</p>
+
+<p align="center">
 
 ![React](https://img.shields.io/badge/React-19-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4)
 
-![Prettier](https://img.shields.io/badge/Prettier-Formatted-F7B93E?logo=prettier&logoColor=white)
-![ESLint](https://img.shields.io/badge/ESLint-Linted-4B32C3?logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-Formatted-F7B93E?logo=prettier\&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-Linted-4B32C3?logo=eslint\&logoColor=white)
 ![Spellcheck](https://img.shields.io/badge/Spellcheck-Enabled-4285F4)
 
 [![CI](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml)
-</h4>
 
-# KubeSage Frontend
-
-Web frontend for **KubeSage**, a platform designed to analyze and diagnose Kubernetes incidents.
-
-KubeSage combines Kubernetes cluster state, metrics, events, and analysis results to help users quickly understand what is happening when an incident occurs.
-
-This repository contains only the **KubeSage frontend**. The backend API is developed and maintained in a separate repository.
+</p>
 
 ---
 
-## 🧭 Overview
+## 📖 What is KubeSage?
 
-KubeSage is designed to help teams quickly understand what is happening in a Kubernetes cluster when an incident occurs.
+**KubeSage** is a Kubernetes incident investigation platform designed to help engineers understand what is happening when an incident occurs.
 
-The current architecture is based on:
+Instead of looking at cluster state, metrics, logs and diagnostic information separately, KubeSage brings them together into a single investigation workflow.
+
+The platform is designed around the following flow:
 
 ```text
-┌─────────────────────┐
-│   kubesage-frontend │
-│                     │
-│ React / TypeScript  │
-│ Vite / Tailwind     │
-└──────────┬──────────┘
-           │ HTTP
-           ▼
-┌─────────────────────┐
-│    KubeSage API     │
-│                     │
-│ FastAPI / Python    │
-└──────────┬──────────┘
-           │
-           ├── Kubernetes
-           ├── Prometheus
-           ├── PostgreSQL
-           └── Observability stack
+                    Kubernetes Incident
+                            │
+                            ▼
+                  ┌───────────────────┐
+                  │     KubeSage      │
+                  │                   │
+                  │  Cluster state    │
+                  │  Metrics          │
+                  │  Logs             │
+                  │  Events           │
+                  │  Diagnostics      │
+                  │  Correlations     │
+                  │  AI analysis      │
+                  └─────────┬─────────┘
+                            │
+                            ▼
+                   Incident Investigation
 ```
 
-The frontend is responsible for the **presentation and exploration of data**, while the KubeSage API handles the business logic and analysis.
+The frontend provides the **visual investigation experience**, while the KubeSage API handles analysis, data collection and business logic.
+
+This repository contains only the **KubeSage frontend**.
+
 ---
 
-## 📸 Screenshots
+## 📸 Interface
+
+KubeSage provides a dedicated interface for moving from a high-level cluster overview to detailed incident investigation.
 
 ### Dashboard
+
+The Dashboard provides a high-level overview of the cluster and KubeSage activity.
 
 ![KubeSage Dashboard](docs/screenshots/dashboard.png)
 
 ### Findings
 
+Findings provide a structured view of issues detected during analysis, with context about the affected Kubernetes resources.
+
 ![KubeSage Findings](docs/screenshots/findings.png)
 
 ### Analysis
 
+An analysis brings together the information collected during an incident investigation and presents the resulting diagnostic information.
+
 ![KubeSage Analysis](docs/screenshots/analysis.png)
+
+### History
+
+The History view provides access to previously performed analyses and allows engineers to revisit past incidents.
+
+![KubeSage History](docs/screenshots/history.png)
 
 ---
 
 ## ✨ Features
 
-The frontend currently provides several views for exploring the state of the cluster and KubeSage analyses.
+### 📊 Cluster Dashboard
 
-### Dashboard
+The Dashboard provides an overview of the current state of the environment, including:
 
-The **Dashboard** provides a high-level overview of the system:
+* cluster health;
+* resource information;
+* incident and finding counts;
+* findings summary;
+* key KubeSage indicators.
 
-- overall cluster status;
-- resource and incident counts;
-- findings summary;
-- key indicators;
-- overall KubeSage status.
+The goal is to provide enough context to quickly identify whether further investigation is required.
 
-### Findings
+### 🔎 Findings Exploration
 
-The **Findings** view allows users to explore issues detected by the KubeSage analysis engine.
+Findings represent issues detected by KubeSage's diagnostic engine.
 
-Findings can represent issues detected at different levels, including:
+They can be associated with different Kubernetes resources and signals, including:
 
-- pods;
-- containers;
-- Kubernetes resources;
-- metrics;
-- events.
+* Pods;
+* containers;
+* workloads;
+* resource usage;
+* Kubernetes events;
+* diagnostic rules.
 
-### Analyses
+Findings are presented in a structured way so that engineers can quickly identify the most relevant problems.
 
-The **Analyses** view provides access to analyses performed by KubeSage and their results.
+### 🧠 Incident Analysis
 
-An analysis can rely on:
+The Analysis view presents the results of an individual KubeSage investigation.
 
-- Kubernetes resource state;
-- Prometheus metrics;
-- available logs and events;
-- diagnostic rules;
-- correlations between multiple findings.
+An analysis can combine information from multiple sources:
 
-### History
+* Kubernetes resources;
+* Prometheus metrics;
+* logs;
+* events;
+* diagnostic rules;
+* correlations between findings;
+* AI-assisted analysis.
 
-The **History** view allows users to browse previously performed analyses and review their results.
+This is intended to provide context rather than simply report an isolated alert.
 
-### Settings
+### 🕘 Analysis History
 
-A dedicated **Settings** page provides a central location for application configuration exposed to users.
+The History view allows previously performed analyses to be explored and revisited.
+
+This provides a foundation for building a longer-term incident investigation workflow.
+
+### ⚙️ Settings
+
+The Settings view provides a dedicated place for application-level configuration exposed by the frontend.
+
+---
+
+## 🎮 Demo Mode
+
+The frontend includes a **Demo Mode** powered by local mock data.
+
+Demo Mode makes it possible to explore the application without running:
+
+* a Kubernetes cluster;
+* the KubeSage API;
+* Prometheus;
+* the observability stack.
+
+This is particularly useful for:
+
+* local frontend development;
+* UI development;
+* demonstrations;
+* screenshots;
+* evaluating the project without deploying the complete KubeSage platform.
+
+Start the frontend locally and explore the interface using the included demo data.
 
 ---
 
 ## 🛠️ Technology Stack
-
-The frontend is built primarily with:
 
 | Technology         | Purpose                              |
 | ------------------ | ------------------------------------ |
@@ -135,25 +181,76 @@ The frontend is built primarily with:
 | **TypeScript**     | Static typing                        |
 | **Vite**           | Development server and build tooling |
 | **Tailwind CSS**   | Styling                              |
-| **shadcn/ui**      | UI components                        |
+| **shadcn/ui**      | Reusable UI components               |
 | **TanStack Query** | Server-state management and caching  |
+| **React Router**   | Application routing                  |
 | **npm**            | Package management                   |
 
-The application communicates with the KubeSage backend through its HTTP API.
+The application follows a component-based architecture with feature-oriented organization where appropriate.
+
+---
+
+## 📁 Project Structure
+
+The project separates application features, reusable UI components, API access, types and mock data.
+
+A simplified structure looks like:
+
+```text
+src/
+├── api/
+│   └── ...
+├── components/
+│   ├── common/
+│   └── ui/
+├── features/
+│   ├── analysis/
+│   ├── dashboard/
+│   ├── findings/
+│   ├── history/
+│   └── settings/
+├── hooks/
+│   └── ...
+├── mocks/
+│   └── ...
+├── types/
+│   └── ...
+├── config/
+│   └── ...
+└── main.tsx
+```
+
+The exact structure may evolve as the frontend grows.
+
+Data-access logic is kept separate from presentation components, while reusable hooks encapsulate server-state interactions and caching.
+
+Mock data is kept independently from the application logic so that Demo Mode can reproduce realistic application states without requiring the backend.
 
 ---
 
 ## 🔗 KubeSage API
 
-The frontend depends on the **KubeSage API**, which exposes the endpoints required by the web application.
+The frontend communicates with the **KubeSage API** through HTTP.
 
-The frontend and backend are intentionally maintained as separate repositories in order to keep a clear separation between:
+The API is maintained separately from this repository.
 
-- **Frontend** → user interface and data exploration;
-- **API** → business logic, analysis, and data access;
-- **Infrastructure** → Kubernetes, Prometheus, PostgreSQL, and observability.
+The two components are intentionally decoupled:
 
-This separation allows the frontend and backend to evolve and be deployed independently while communicating through a well-defined HTTP API.
+```text
+kubesage-frontend
+       │
+       │ HTTP
+       ▼
+kubesage-api
+       │
+       ├── Kubernetes
+       ├── Prometheus
+       ├── Loki
+       ├── Tempo
+       └── PostgreSQL
+```
+
+This separation allows the frontend and backend to be developed, tested and deployed independently.
 
 ---
 
@@ -163,8 +260,8 @@ This separation allows the frontend and backend to evolve and be deployed indepe
 
 Make sure the following are installed:
 
-- Node.js
-- npm
+* Node.js
+* npm
 
 Check your installed versions:
 
@@ -176,7 +273,7 @@ npm --version
 ### Clone the repository
 
 ```bash
-git clone https://github.com/fdebar/kubesage-frontend.git
+git clone https://github.com/fdebar/kubesage-web.git
 cd kubesage-frontend
 ```
 
@@ -188,31 +285,47 @@ npm install
 
 ---
 
+## 🎮 Run with Demo Mode
+
+Demo Mode is the easiest way to explore the frontend locally.
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Vite will serve the application at:
+
+```text
+http://localhost:5173
+```
+
+The frontend can then be explored using the included mock data.
+
+No KubeSage API or Kubernetes cluster is required for the demo experience.
+
+---
+
 ## ⚙️ Configuration
 
-The frontend uses an environment variable to define the KubeSage API URL.
+When connecting the frontend to a real KubeSage API, configure the API endpoint through an environment variable.
 
 Create a `.env.local` file:
 
 ```env
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=http://localhost:8000/v1/api
 ```
 
-The value must point to the instance where **KubeSage API** is running.
-
-For example:
+For example, when the API is deployed remotely:
 
 ```env
-VITE_API_URL=http://localhost:8000
-```
-
-or, when the API is deployed remotely:
-
-```env
-VITE_API_URL=https://kubesage-api.example.com
+VITE_API_URL=https://kubesage-api.example.com/v1/api
 ```
 
 > `VITE_API_URL` is a frontend configuration value and must not contain secrets.
+
+The exact data-source configuration depends on the current application configuration.
 
 ---
 
@@ -224,15 +337,7 @@ Start the development server:
 npm run dev
 ```
 
-By default, Vite serves the application at:
-
-```text
-http://localhost:5173
-```
-
-The frontend must be able to communicate with a running instance of **KubeSage API**.
-
-A typical local setup looks like this:
+A typical local setup with the KubeSage API looks like:
 
 ```text
 Browser
@@ -241,14 +346,16 @@ Browser
    ▼
 KubeSage Frontend
    │
-   │ http://localhost:8000
+   │ http://localhost:8000/v1/api
    ▼
 KubeSage API
 ```
 
+For frontend-only development and UI work, Demo Mode can be used instead.
+
 ---
 
-## 🏗️ Build
+## 🏗️ Production Build
 
 Create a production build:
 
@@ -256,102 +363,55 @@ Create a production build:
 npm run build
 ```
 
-The production build is generated in:
+The resulting files are generated in:
 
 ```text
 dist/
 ```
 
-The resulting static files can be served by any web server capable of serving a single-page application.
+The application is a client-side single-page application and can be served by a web server capable of handling SPA routing.
 
-> Docker is not currently used for the frontend.
+> Docker is not currently required for the frontend.
 
 ---
 
-## 🧪 Tests and Code Quality
+## 🧪 Tests & Code Quality
+
+The project uses automated tooling to keep the frontend consistent and maintainable.
 
 Available scripts can be found in `package.json`.
 
-Depending on the project configuration, common checks include:
+Typical checks include:
 
 ```bash
 npm run lint
 npm run build
+npm run spellcheck
 ```
 
-The TypeScript/Vite build also provides an important validation step before publishing a new version of the frontend.
+Formatting is handled with **Prettier**, while **ESLint** provides static analysis and **CSpell** checks source files for spelling issues.
 
----
-
-## 📁 Project Structure
-
-The project separates pages, reusable components, and data-access logic.
-
-A simplified structure looks like this:
-
-```text
-src/
-├── components/
-│   ├── common/
-│   └── ...
-├── hooks/
-│   ├── useAnalysis.ts
-│   ├── useAnalyses.ts
-│   └── useDashboard.ts
-├── pages/
-│   ├── DashboardPage.tsx
-│   ├── FindingsPage.tsx
-│   ├── AnalysesPage.tsx
-│   ├── HistoryPage.tsx
-│   └── SettingsPage.tsx
-├── ...
-└── main.tsx
-```
-
-Hooks built around **TanStack Query** encapsulate interactions with the API, keeping UI components independent from server-state management, loading states, and caching.
+The CI pipeline runs the project's validation checks before changes are merged.
 
 ---
 
 ## 🔭 Roadmap
 
-The frontend will evolve alongside KubeSage's analysis capabilities.
+KubeSage Frontend will evolve alongside the platform's incident investigation capabilities.
 
 Planned improvements include:
 
-- richer dashboard visualizations;
-- improved findings exploration;
-- deeper analysis and incident context;
-- detailed incident history;
-- integration with traces and observability data;
-- visualization of correlations between findings;
-- improved incident investigation workflows;
-- progressive integration of KubeSage's AI-assisted analysis capabilities.
+* richer dashboard visualizations;
+* deeper incident context;
+* improved findings exploration;
+* richer analysis details;
+* visualization of finding correlations;
+* deeper integration with logs and traces;
+* improved incident investigation workflows;
+* expanded AI-assisted analysis;
+* additional observability context.
 
-The long-term goal is to evolve the interface from a simple dashboard into a **dedicated Kubernetes incident investigation console**.
-
----
-
-## 🤝 KubeSage Project
-
-KubeSage is composed of several independent components.
-
-The frontend provides the presentation layer:
-
-```text
-                    KubeSage
-                       │
-           ┌───────────┴───────────┐
-           │                       │
-      kubesage-frontend       kubesage-api
-           │                       │
-        React UI             FastAPI / Python
-                                   │
-                       ┌───────────┼───────────┐
-                       │           │           │
-                  Kubernetes   Prometheus   PostgreSQL
-```
-
-This separation allows the frontend and backend to be developed and deployed independently while communicating through a common API.
+The long-term goal is to evolve KubeSage from a monitoring-oriented interface into a **dedicated Kubernetes incident investigation console**.
 
 ---
 
