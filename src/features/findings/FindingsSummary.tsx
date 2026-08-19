@@ -1,4 +1,4 @@
-import { Activity, ShieldAlert, TriangleAlert, Info } from '@/lib/icons';
+import { Activity, Info, ShieldAlert, TriangleAlert } from '@/lib/icons';
 import { MetricCard } from '@/components/common/MetricCard';
 import type { Finding } from '@/types/types';
 
@@ -8,12 +8,9 @@ interface FindingsSummaryProps {
 
 export function FindingsSummary({ findings }: FindingsSummaryProps) {
   const total = findings.length;
-
-  const critical = findings.filter((finding) => finding.severity === 'critical').length;
-
-  const warning = findings.filter((finding) => finding.severity === 'warning').length;
-
-  const info = findings.filter((finding) => finding.severity === 'info').length;
+  const critical = findings.filter((finding) => finding.severity === 'CRITICAL').length;
+  const warning = findings.filter((finding) => finding.severity === 'WARNING').length;
+  const info = findings.filter((finding) => finding.severity === 'INFO').length;
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

@@ -1,28 +1,31 @@
-export type FindingSeverity = 'critical' | 'warning' | 'info';
+export type FindingKind = 'observation' | 'diagnosis';
 
-export type FindingStatus = 'active' | 'resolved';
+export type FindingSeverity = 'INFO' | 'LOW' | 'WARNING' | 'HIGH' | 'CRITICAL';
 
 export type FindingResourceKind = 'Pod' | 'Deployment' | 'StatefulSet' | 'DaemonSet' | 'Node';
 
 export interface FindingResource {
-  kind: FindingResourceKind;
+  api_version: string | null;
+  kind: string;
   name: string;
-  namespace?: string;
+  namespace: string | null;
 }
 
 export interface Finding {
   id: string;
-
+  analysis_id: string;
+  rule: string;
+  kind: FindingKind;
+  severity: FindingSeverity;
   title: string;
   description: string;
+  resource: FindingResource | null;
+  created_at: string;
+}
 
-  severity: FindingSeverity;
-  status: FindingStatus;
-
-  resource: FindingResource;
-
-  firstSeen: string;
-  lastSeen: string;
-
-  analysisId: string;
+export interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  page_size: number;
 }

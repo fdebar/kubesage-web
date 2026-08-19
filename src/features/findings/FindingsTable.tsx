@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import { ExternalLink } from '@/lib/icons';
 import type { Finding, FindingSeverity } from '@/types/types';
 
@@ -7,22 +8,43 @@ interface FindingsTableProps {
 }
 
 const severityStyles: Record<FindingSeverity, string> = {
-  critical: 'bg-destructive/10 text-destructive',
-  warning: 'bg-warning/10 text-warning',
-  info: 'bg-muted text-muted-foreground',
+  CRITICAL: 'bg-destructive/10 text-destructive',
+  HIGH: 'bg-destructive/10 text-destructive',
+  WARNING: 'bg-warning/10 text-warning',
+  LOW: 'bg-muted text-muted-foreground',
+  INFO: 'bg-muted text-muted-foreground',
 };
 
 const severityLabels: Record<FindingSeverity, string> = {
-  critical: 'Critical',
-  warning: 'Warning',
-  info: 'Info',
+  CRITICAL: 'Critical',
+  HIGH: 'High',
+  WARNING: 'Warning',
+  LOW: 'Low',
+  INFO: 'Info',
 };
+
+function formatRelativeTime(value: string): string {
+  const timestamp = new Date(value).getTime();
+  const now = Date.now();
+
+  const diffInSeconds = Math.max(0, Math.floor((now - timestamp) / 1000));
+  if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours}h ago`;
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  return `${diffInDays}d ago`;
+}
 
 export function FindingsTable({ findings }: FindingsTableProps) {
   if (findings.length === 0) {
     return (
       <div className="bg-card rounded-lg border p-8 text-center">
-        <p className="text-muted-foreground text-sm">No findings match the current filters.</p>
+        <p className="text-muted-foreground text-sm">No findings found.</p>
       </div>
     );
   }
@@ -36,8 +58,7 @@ export function FindingsTable({ findings }: FindingsTableProps) {
               <th className="px-6 py-3 font-medium">Severity</th>
               <th className="px-6 py-3 font-medium">Finding</th>
               <th className="px-6 py-3 font-medium">Resource</th>
-              <th className="px-6 py-3 font-medium">Status</th>
-              <th className="px-6 py-3 font-medium">Last seen</th>
+              <th className="px-6 py-3 font-medium">Detected</th>
               <th className="px-6 py-3" />
             </tr>
           </thead>
@@ -56,34 +77,37 @@ export function FindingsTable({ findings }: FindingsTableProps) {
                 <td className="px-6 py-4">
                   <div className="max-w-md">
                     <p className="font-medium">{finding.title}</p>
+
                     <p className="text-muted-foreground mt-1 line-clamp-1 text-xs">
                       {finding.description}
                     </p>
+
+                    <p className="text-muted-foreground mt-1 text-xs">{finding.rule}</p>
                   </div>
                 </td>
 
                 <td className="px-6 py-4">
-                  <div>
-                    <p className="font-medium">{finding.resource.name}</p>
+                  {finding.resource ? (
+                    <div>
+                      <p className="font-medium">{finding.resource.name}</p>
 
-                    <p className="text-muted-foreground mt-1 text-xs">
-                      {finding.resource.kind}
-                      {finding.resource.namespace && ` · ${finding.resource.namespace}`}
-                    </p>
-                  </div>
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        {finding.resource.kind}
+                        {finding.resource.namespace && ` · ${finding.resource.namespace}`}
+                      </p>
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground text-xs">No resource</span>
+                  )}
                 </td>
 
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <StatusBadge status={finding.status} />
-                </td>
-
-                <td className="text-muted-foreground px-6 py-4 whitespace-nowrap">
-                  {formatRelativeTime(finding.lastSeen)}
+                <td className="text-muted-foreground px-6 py-4 text-xs whitespace-nowrap">
+                  {formatRelativeTime(finding.created_at)}
                 </td>
 
                 <td className="px-6 py-4 text-right">
                   <Link
-                    to={`/analysis/${finding.analysisId}`}
+                    to={`/analysis/${finding.analysis_id}`}
                     className="text-primary inline-flex items-center gap-1.5 text-sm font-medium hover:underline"
                   >
                     View analysis
@@ -97,41 +121,4 @@ export function FindingsTable({ findings }: FindingsTableProps) {
       </div>
     </div>
   );
-}
-
-interface StatusBadgeProps {
-  status: Finding['status'];
-}
-
-function StatusBadge({ status }: StatusBadgeProps) {
-  const isActive = status === 'active';
-
-  return (
-    <span
-      className={
-        isActive
-          ? 'bg-primary/10 text-primary inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium'
-          : 'bg-muted text-muted-foreground inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium'
-      }
-    >
-      {isActive ? 'Active' : 'Resolved'}
-    </span>
-  );
-}
-
-function formatRelativeTime(value: string): string {
-  const timestamp = new Date(value).getTime();
-  const now = Date.now();
-
-  const diffInSeconds = Math.max(0, Math.floor((now - timestamp) / 1000));
-  if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
-
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) return `${diffInHours}h ago`;
-
-  const diffInDays = Math.floor(diffInHours / 24);
-  return `${diffInDays}d ago`;
 }
