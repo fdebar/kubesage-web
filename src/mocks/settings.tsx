@@ -12,6 +12,12 @@ export const services = [
     status: 'connected',
   },
   {
+    name: 'Grafana',
+    description: 'Metrics and dashboards',
+    url: 'http://grafana.monitoring:3000',
+    status: 'connected',
+  },
+  {
     name: 'OpenTelemetry',
     description: 'Telemetry collection',
     url: 'http://alloy.monitoring:4318',

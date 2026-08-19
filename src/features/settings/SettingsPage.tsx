@@ -20,6 +20,11 @@ const observabilityServices = [
     url: 'http://loki.monitoring:3100',
   },
   {
+    name: 'Grafana',
+    description: 'Metrics and dashboards',
+    url: 'http://grafana.monitoring:3000',
+  },
+  {
     name: 'OpenTelemetry',
     description: 'Telemetry collection',
     url: 'http://alloy.monitoring:4318',
