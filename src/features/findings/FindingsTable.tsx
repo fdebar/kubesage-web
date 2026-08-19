@@ -8,11 +8,11 @@ interface FindingsTableProps {
 }
 
 const severityStyles: Record<FindingSeverity, string> = {
-  CRITICAL: 'bg-destructive/10 text-destructive',
-  HIGH: 'bg-destructive/10 text-destructive',
-  WARNING: 'bg-warning/10 text-warning',
-  LOW: 'bg-muted text-muted-foreground',
-  INFO: 'bg-muted text-muted-foreground',
+  CRITICAL: 'bg-red-500/10 text-red-600 dark:text-red-400',
+  HIGH: 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
+  WARNING: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400',
+  LOW: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+  INFO: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
 };
 
 const severityLabels: Record<FindingSeverity, string> = {
@@ -68,9 +68,9 @@ export function FindingsTable({ findings }: FindingsTableProps) {
               <tr key={finding.id} className="hover:bg-muted/30 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${severityStyles[finding.severity]}`}
+                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${severityStyles[finding.severity.toUpperCase() as FindingSeverity]}`}
                   >
-                    {severityLabels[finding.severity]}
+                    {severityLabels[finding.severity.toUpperCase() as FindingSeverity]}
                   </span>
                 </td>
 

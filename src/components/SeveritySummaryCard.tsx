@@ -17,7 +17,9 @@ const severityColors: Record<Severity, string> = {
 
 export const SeveritySummaryCard = ({ severities }: SeveritySummaryCardProps) => (
   <Card className="ks-card px-4 py-3">
-    <h3 className="text-base leading-snug font-medium group-data-[size=sm]/card:text-sm">Findings by Severity</h3>
+    <h3 className="text-base leading-snug font-medium group-data-[size=sm]/card:text-sm">
+      Findings by Severity
+    </h3>
 
     <div className="grid grid-cols-2">
       {Object.entries(severities).map(([severity, count], index) => (
