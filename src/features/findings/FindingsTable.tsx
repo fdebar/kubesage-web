@@ -88,7 +88,9 @@ export function FindingsTable({ findings }: FindingsTableProps) {
 
                 <td className="px-6 py-4 text-right">
                   <Link
-                    to={`/analysis/${finding.analysis_id}`}
+                    to={`/analyses/${finding.analysis_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-primary inline-flex items-center gap-1.5 text-sm font-medium hover:underline"
                   >
                     View analysis
