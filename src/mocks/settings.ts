@@ -26,6 +26,6 @@ export const settingsMock: Settings = {
 export const settingsServiceTestMock: ServiceTestResult = {
   status: 'connected',
   latency_ms: 12,
-  checked_at: new Date(),
+  checked_at: new Date().toISOString(),
   message: null,
 };
