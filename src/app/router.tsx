@@ -7,36 +7,39 @@ import { AppShell } from '@/components/layout/AppShell';
 import { AnalysisDetailPage } from '@/features/analyses/AnalysisDetailPage';
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      element: <AppShell />,
+      children: [
+        {
+          path: '/',
+          element: <DashboardPage />,
+        },
+        {
+          path: '/analyses/:id',
+          element: <AnalysisDetailPage />,
+        },
+        {
+          path: '/findings',
+          element: <FindingsPage />,
+        },
+        {
+          path: '/history',
+          element: <HistoryPage />,
+        },
+        {
+          path: '/settings',
+          element: <SettingsPage />,
+        },
+        {
+          path: '*',
+          element: <NotFoundPage />,
+        },
+      ],
+    },
+  ],
   {
-    element: <AppShell />,
-    children: [
-      {
-        path: '/',
-        element: <DashboardPage />,
-      },
-      {
-        path: '/analyses/:id',
-        element: <AnalysisDetailPage />,
-      },
-      {
-        path: '/findings',
-        element: <FindingsPage />,
-      },
-      {
-        path: '/history',
-        element: <HistoryPage />,
-      },
-      {
-        path: '/settings',
-        element: <SettingsPage />,
-      },
-      {
-        path: '*',
-        element: <NotFoundPage />,
-      },
-    ],
+    basename: '/kubesage-web',
   },
-], {
-  basename: '/kubesage-web',
-});
+);
