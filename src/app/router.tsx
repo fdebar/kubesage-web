@@ -37,4 +37,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+], {
+  basename: '/kubesage-web',
+});
