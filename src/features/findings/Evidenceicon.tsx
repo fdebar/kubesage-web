@@ -1,7 +1,7 @@
 import { Activity, FileText, Zap, Box, GitBranch, Gauge } from 'lucide-react';
 
 interface EvidenceIconProps {
-  type?: string;
+  type?: string | null;
 }
 
 export function EvidenceIcon({ type }: EvidenceIconProps) {
