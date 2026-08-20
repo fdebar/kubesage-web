@@ -2,7 +2,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { EmptyState } from '@/components/common/EmptyState';
 import { LoadingState } from '@/components/common/LoadingState';
 import { FindingsSummary } from '@/features/findings/FindingsSummary';
-import { FindingsTable } from './FindingsTable';
+import { FindingsTable } from '@/features/findings/FindingsTable';
 import { useFindings } from '@/hooks/useFindings';
 
 export function FindingsPage() {

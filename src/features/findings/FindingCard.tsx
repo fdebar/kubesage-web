@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SeverityBadge } from '@/components/common/SeverityBadge';
 import type { FindingDetail } from '@/types/analysis';
-import { EvidenceList } from './EvidenceList';
+import { EvidenceList } from '@/features/findings/EvidenceList';
 
 interface FindingCardProps {
   finding: FindingDetail;

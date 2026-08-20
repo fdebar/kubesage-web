@@ -1,4 +1,4 @@
-import { EvidenceCard } from './EvidenceCard';
+import { EvidenceCard } from '@/features/findings/EvidenceCard';
 import type { Evidence } from '@/types/analysis';
 
 interface EvidenceListProps {
