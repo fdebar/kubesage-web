@@ -1,11 +1,16 @@
 name: KubeSage Release
+
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Release version (e.g. 0.1.1)'
+      release_type:
+        description: 'Release type'
         required: true
-        type: string
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 permissions:
   contents: write
@@ -26,43 +31,48 @@ jobs:
         with:
           node-version: 24
 
-      - name: Read package version
-        id: package
-        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-
-      - name: Validate version
-        env:
-          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
-          RELEASE_VERSION: ${{ inputs.version }}
+      - name: Configure Git
         run: |
-          if [ "$PACKAGE_VERSION" != "$RELEASE_VERSION" ]; then
-            echo "Version mismatch."
-            echo "package.json: $PACKAGE_VERSION"
-            echo "Requested release: $RELEASE_VERSION"
-            exit 1
-          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Check tag does not already exist
+      - name: Bump version
+        id: version
         env:
-          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_TYPE: ${{ inputs.release_type }}
         run: |
-          if git rev-parse "v$RELEASE_VERSION" >/dev/null 2>&1; then
-            echo "Tag v$RELEASE_VERSION already exists."
-            exit 1
-          fi
+          npm version "$RELEASE_TYPE" --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Update package lock
+        run: npm install --package-lock-only
+
+      - name: Commit version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore: release v$VERSION [skip ci]"
 
       - name: Create tag
         env:
-          RELEASE_VERSION: ${{ inputs.version }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          git tag -a "v$RELEASE_VERSION" -m "KubeSage Web v$RELEASE_VERSION"
-          git push origin "v$RELEASE_VERSION"
+          git tag -a "v$VERSION" -m "KubeSage Web v$VERSION"
+
+      - name: Push commit and tag
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git push origin main
+          git push origin "v$VERSION"
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_VERSION: ${{ inputs.version }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          gh release create "v$RELEASE_VERSION" \
-            --title "KubeSage Web v$RELEASE_VERSION" \
+          gh release create "v$VERSION" \
+            --title "KubeSage Web v$VERSION" \
             --generate-notes
