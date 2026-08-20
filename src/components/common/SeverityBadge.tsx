@@ -22,11 +22,11 @@ const styles: Record<Severity, string> = {
   NONE: 'bg-gray-500/10 text-gray-600 dark:text-gray-400',
 };
 
+const isSeverity = (value: string): value is Severity => value in styles;
+
 export function SeverityBadge({ severity }: SeverityBadgeProps) {
-  let s = severity?.toUpperCase();
-  if (!s || !styles[s]) {
-    s = 'NONE';
-  }
+  const s = severity?.toUpperCase();
+  if (!s || !isSeverity(s)) return null;
 
   return (
     <span className={`rounded-full px-2 py-1 text-xs font-medium ${styles[s]}`}>

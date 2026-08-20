@@ -15,11 +15,11 @@ const styles: Record<Status, string> = {
   critical: 'bg-red-100/10 text-red-600 dark:text-red-400',
 };
 
+const isStatus = (value: string): value is Status => value in styles;
+
 export function StatusBadge({ status }: StatusBadgeProps) {
-  let s = status?.toLocaleLowerCase();
-  if (!s || !styles[s]) {
-    s = 'unknown';
-  }
+  const s = status?.toLocaleLowerCase();
+  if (!s || !isStatus(s)) return null;
 
   return (
     <span className={`rounded-full px-2 py-1 text-xs font-medium ${styles[s]}`}>
