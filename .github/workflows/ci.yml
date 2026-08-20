@@ -42,6 +42,7 @@ jobs:
         run: npm run build
         env:
           VITE_DATA_SOURCE: demo
+          VITE_BUILD_SHA: ${{ github.sha }}
 
       - name: Configure SPA fallback
         run: cp dist/index.html dist/404.html

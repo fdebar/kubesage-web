@@ -2,7 +2,7 @@ import { Activity, Clock3, Settings, ShieldCheck } from '@/lib/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDashboard } from '@/hooks/useDashboard';
 import { DemoBadge } from '@/components/ui/DemoBadge';
-import { APP_VERSION } from '@/config/app';
+import { APP_BUILD_SHA, APP_VERSION } from '@/config/app';
 
 const navigation = [
   {
@@ -140,6 +140,7 @@ export function Sidebar() {
           </div>
         </div>
         <div className="mt-3 px-3 text-[10px] text-zinc-700">KubeSage Web v{APP_VERSION}</div>
+        <p className="mt-0.5">Build {APP_BUILD_SHA.slice(0, 7)}</p>
       </div>
     </aside>
   );

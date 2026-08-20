@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
+    __APP_BUILD_SHA__: JSON.stringify(process.env.VITE_BUILD_SHA ?? 'local'),
   },
   resolve: {
     alias: {
