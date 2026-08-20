@@ -80,7 +80,7 @@ export function SettingsPage() {
             </div>
 
             <div>
-              <p className="text-muted-foreground text-sm">Version</p>
+              <p className="text-muted-foreground text-sm">API Version</p>
               <p className="font-medium">v{data.version}</p>
             </div>
           </CardContent>
