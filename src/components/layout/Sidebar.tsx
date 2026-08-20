@@ -139,8 +139,10 @@ export function Sidebar() {
             <span className="text-[10px] text-zinc-600"></span>
           </div>
         </div>
-        <div className="mt-3 px-3 text-[10px] text-zinc-700">KubeSage Web v{APP_VERSION}</div>
-        <p className="mt-0.5">Build {APP_BUILD_SHA.slice(0, 7)}</p>
+        <div className="mt-3 px-3 text-[10px] text-zinc-700">
+          KubeSage Web v{APP_VERSION}
+          <p className="mt-0.5">Build {APP_BUILD_SHA.slice(0, 7)}</p>
+        </div>
       </div>
     </aside>
   );
