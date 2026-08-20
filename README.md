@@ -1,4 +1,4 @@
-<h1 align="center">🤖 KubeSage Frontend</h1>
+<h1 align="center">🤖 KubeSage Web</h1>
 
 <p align="center">
   <img src="docs/kubesage-logo.png" alt="KubeSage Logo" width="280">
@@ -12,6 +12,16 @@
   A web interface for exploring cluster health, findings and incident analyses with KubeSage.
 </p>
 
+<p align="center">
+  <a href="https://fdebar.github.io/kubesage-web/">
+    <strong>🚀 Live Demo</strong>
+  </a>
+</p>
+
+<p align="center">
+  <em>The public demo runs entirely with mock data — no Kubernetes cluster or backend required.</em>
+</p>
+
 <h4 align="center">
 
 ![React](https://img.shields.io/badge/React-19-61DAFB)
@@ -23,7 +33,7 @@
 ![ESLint](https://img.shields.io/badge/ESLint-Linted-4B32C3?logo=eslint&logoColor=white)
 ![Spellcheck](https://img.shields.io/badge/Spellcheck-Enabled-4285F4)
 
-[![CI](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yaml)
+[![CI](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fdebar/kubesage-web/actions/workflows/ci.yml)
 
 </h4>
 
@@ -57,15 +67,41 @@ The platform is designed around the following flow:
                    Incident Investigation
 ```
 
-The frontend provides the **visual investigation experience**, while the KubeSage API handles analysis, data collection and business logic.
+**KubeSage Web** provides the visual investigation experience, while the KubeSage API handles data collection, analysis and business logic.
 
-This repository contains only the **KubeSage frontend**.
+This repository contains the **KubeSage web application**.
+
+---
+
+## 🚀 Live Demo
+
+The frontend is publicly available through GitHub Pages:
+
+<p align="center">
+  <a href="https://fdebar.github.io/kubesage-web/">
+    <strong>👉 Open the KubeSage Web Demo</strong>
+  </a>
+</p>
+
+The live demo runs in **Demo Mode** using realistic mock data.
+
+No Kubernetes cluster, observability stack or KubeSage API is required.
+
+This makes the application immediately accessible for:
+
+- exploring the UI;
+- demonstrating the project;
+- reviewing the incident investigation workflow;
+- evaluating the frontend architecture;
+- sharing KubeSage without deploying the complete platform.
+
+The demo is automatically deployed through **GitHub Actions** whenever changes are pushed to the main branch.
 
 ---
 
 ## 📸 Interface
 
-KubeSage provides a dedicated interface for moving from a high-level cluster overview to detailed incident investigation.
+KubeSage Web provides a dedicated interface for moving from a high-level cluster overview to detailed incident investigation.
 
 ### Dashboard
 
@@ -136,7 +172,7 @@ An analysis can combine information from multiple sources:
 - correlations between findings;
 - AI-assisted analysis.
 
-This is intended to provide context rather than simply report an isolated alert.
+The goal is to provide context and relationships between signals rather than simply report an isolated alert.
 
 ### 🕘 Analysis History
 
@@ -152,24 +188,29 @@ The Settings view provides a dedicated place for application-level configuration
 
 ## 🎮 Demo Mode
 
-The frontend includes a **Demo Mode** powered by local mock data.
+KubeSage Web includes a **Demo Mode** powered by local mock data.
 
 Demo Mode makes it possible to explore the application without running:
 
 - a Kubernetes cluster;
 - the KubeSage API;
 - Prometheus;
-- the observability stack.
+- Loki;
+- Tempo;
+- the rest of the KubeSage observability stack.
 
-This is particularly useful for:
+The mock data reproduces realistic application states so that the complete frontend experience can be explored independently of the backend.
+
+Demo Mode is used by the public GitHub Pages deployment.
+
+It is also useful for:
 
 - local frontend development;
 - UI development;
 - demonstrations;
 - screenshots;
+- testing application states;
 - evaluating the project without deploying the complete KubeSage platform.
-
-Start the frontend locally and explore the interface using the included demo data.
 
 ---
 
@@ -188,6 +229,8 @@ Start the frontend locally and explore the interface using the included demo dat
 
 The application follows a component-based architecture with feature-oriented organization where appropriate.
 
+Data-access logic is kept separate from presentation components, while reusable hooks encapsulate server-state interactions and caching.
+
 ---
 
 ## 📁 Project Structure
@@ -200,9 +243,13 @@ A simplified structure looks like:
 src/
 ├── api/
 │   └── ...
+├── app/
+│   └── ...
 ├── components/
 │   ├── common/
 │   └── ui/
+├── config/
+│   └── ...
 ├── features/
 │   ├── analysis/
 │   ├── dashboard/
@@ -215,42 +262,40 @@ src/
 │   └── ...
 ├── types/
 │   └── ...
-├── config/
-│   └── ...
 └── main.tsx
 ```
 
 The exact structure may evolve as the frontend grows.
 
-Data-access logic is kept separate from presentation components, while reusable hooks encapsulate server-state interactions and caching.
-
-Mock data is kept independently from the application logic so that Demo Mode can reproduce realistic application states without requiring the backend.
+Mock data is kept independently from application logic so that Demo Mode can reproduce realistic application states without requiring the backend.
 
 ---
 
 ## 🔗 KubeSage API
 
-The frontend communicates with the **KubeSage API** through HTTP.
+KubeSage Web can communicate with the **KubeSage API** through HTTP when running against a real KubeSage environment.
 
 The API is maintained separately from this repository.
 
 The two components are intentionally decoupled:
 
 ```text
-kubesage-frontend
-       │
-       │ HTTP
-       ▼
+kubesage-web
+      │
+      │ HTTP
+      ▼
 kubesage-api
-       │
-       ├── Kubernetes
-       ├── Prometheus
-       ├── Loki
-       ├── Tempo
-       └── PostgreSQL
+      │
+      ├── Kubernetes
+      ├── Prometheus
+      ├── Loki
+      ├── Tempo
+      └── PostgreSQL
 ```
 
 This separation allows the frontend and backend to be developed, tested and deployed independently.
+
+The public demo does **not** use this API and runs entirely in Demo Mode.
 
 ---
 
@@ -274,7 +319,7 @@ npm --version
 
 ```bash
 git clone https://github.com/fdebar/kubesage-web.git
-cd kubesage-frontend
+cd kubesage-web
 ```
 
 ### Install dependencies
@@ -303,29 +348,39 @@ http://localhost:5173
 
 The frontend can then be explored using the included mock data.
 
-No KubeSage API or Kubernetes cluster is required for the demo experience.
+No KubeSage API or Kubernetes cluster is required.
 
 ---
 
 ## ⚙️ Configuration
 
-When connecting the frontend to a real KubeSage API, configure the API endpoint through an environment variable.
+KubeSage Web supports different data sources depending on the environment.
 
-Create a `.env.local` file:
+For Demo Mode:
 
 ```env
+VITE_DATA_SOURCE=demo
+```
+
+When connecting the frontend to a real KubeSage API, configure the API endpoint through an environment variable.
+
+For example:
+
+```env
+VITE_DATA_SOURCE=api
 VITE_API_URL=http://localhost:8000/v1/api
 ```
 
-For example, when the API is deployed remotely:
+For a remotely deployed API:
 
 ```env
+VITE_DATA_SOURCE=api
 VITE_API_URL=https://kubesage-api.example.com/v1/api
 ```
 
 > `VITE_API_URL` is a frontend configuration value and must not contain secrets.
 
-The exact data-source configuration depends on the current application configuration.
+The exact data-source configuration is defined by the application's current configuration.
 
 ---
 
@@ -344,9 +399,9 @@ Browser
    │
    │ http://localhost:5173
    ▼
-KubeSage Frontend
+KubeSage Web
    │
-   │ http://localhost:8000/v1/api
+   │ HTTP
    ▼
 KubeSage API
 ```
@@ -370,6 +425,8 @@ dist/
 ```
 
 The application is a client-side single-page application and can be served by a web server capable of handling SPA routing.
+
+The repository also includes a GitHub Actions workflow that builds and deploys the Demo Mode application to GitHub Pages.
 
 > Docker is not currently required for the frontend.
 
@@ -397,7 +454,7 @@ The CI pipeline runs the project's validation checks before changes are merged.
 
 ## 🔭 Roadmap
 
-KubeSage Frontend will evolve alongside the platform's incident investigation capabilities.
+KubeSage Web will evolve alongside the platform's incident investigation capabilities.
 
 Planned improvements include:
 
@@ -417,4 +474,4 @@ The long-term goal is to evolve KubeSage from a monitoring-oriented interface in
 
 ## 📄 License
 
-To be defined according to the license selected for KubeSage.
+MIT License.
