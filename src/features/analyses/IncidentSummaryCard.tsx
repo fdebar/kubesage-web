@@ -2,30 +2,26 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { Box, Server, Activity, Clock3 } from '@/lib/icons';
 
-import type { Analysis } from '@/types/analysis';
+import type { AnalysisDetail } from '@/types/analysis';
 
 interface IncidentSummaryCardProps {
-  analysis: Analysis;
+  analysis: AnalysisDetail;
 }
 
-export function IncidentSummaryCard({ analysis }: IncidentSummaryCardProps) {
-  const incident = analysis.incident;
+export const IncidentSummaryCard = ({ analysis }: IncidentSummaryCardProps) => (
+  <Card className="ks-card">
+    <CardHeader>
+      <CardTitle>Incident Summary</CardTitle>
+    </CardHeader>
 
-  return (
-    <Card className="ks-card">
-      <CardHeader>
-        <CardTitle>Incident Summary</CardTitle>
-      </CardHeader>
-
-      <CardContent className="grid gap-4 md:grid-cols-4">
-        <SummaryItem icon={Box} label="Namespace" value={incident.namespace} />
-        <SummaryItem icon={Server} label="Pod" value={incident.pod} />
-        <SummaryItem icon={Activity} label="Phase" value={incident.phase} />
-        <SummaryItem icon={Clock3} label="Duration" value={`${analysis.duration_ms} ms`} />
-      </CardContent>
-    </Card>
-  );
-}
+    <CardContent className="grid gap-4 md:grid-cols-4">
+      <SummaryItem icon={Box} label="Namespace" value={analysis.incident.namespace} />
+      <SummaryItem icon={Server} label="Pod" value={analysis.incident.pod} />
+      <SummaryItem icon={Activity} label="Phase" value={analysis.incident.phase} />
+      <SummaryItem icon={Clock3} label="Duration" value={`${analysis.duration_ms} ms`} />
+    </CardContent>
+  </Card>
+);
 
 function SummaryItem({
   icon: Icon,
