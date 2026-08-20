@@ -450,6 +450,14 @@ Formatting is handled with **Prettier**, while **ESLint** provides static analys
 
 The CI pipeline runs the project's validation checks before changes are merged.
 
+## 📦 Releases
+
+KubeSage Web follows [Semantic Versioning](https://semver.org/).
+
+Current version: **v0.1.0**
+
+Releases are published as Git tags and deployed automatically to the public demo.
+
 ---
 
 ## 🔭 Roadmap
