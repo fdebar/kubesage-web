@@ -142,11 +142,25 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git remote set-url origin \
-            "https://x-access-token:${RELEASE_TOKEN}@github.com/${{ github.repository }}.git"
-
           git tag -a "v$VERSION" -m "KubeSage Web v$VERSION"
-          git push origin "v$VERSION"
+
+          git push \
+            "https://x-access-token:${RELEASE_TOKEN}@github.com/${{ github.repository }}.git" \
+            "v$VERSION"
+
+      - name: Trigger Docker release
+        uses: actions/github-script@v8
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'docker.yml',
+              ref: 'main',
+              inputs: {
+                version: 'v${{ steps.version.outputs.version }}'
+              }
+            })
 
       - name: Create GitHub Release
         env:
