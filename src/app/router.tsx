@@ -40,6 +40,6 @@ export const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/kubesage-web',
+    basename: import.meta.env.VITE_BASE_PATH || '/',
   },
 );

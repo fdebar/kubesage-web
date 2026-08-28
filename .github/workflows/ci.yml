@@ -44,6 +44,7 @@ jobs:
         run: npm run build
         env:
           VITE_DATA_SOURCE: demo
+          VITE_BASE_PATH: /kubesage-web/
           VITE_BUILD_SHA: ${{ github.sha }}
 
       - name: Configure SPA fallback

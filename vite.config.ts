@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 import packageJson from './package.json' with { type: 'json' };
 
 export default defineConfig({
-  base: '/kubesage-web/',
+  base: process.env.VITE_BASE_PATH ?? '/',
   plugins: [react(), tailwindcss()],
   define: {
     __APP_VERSION__: JSON.stringify(packageJson.version),
