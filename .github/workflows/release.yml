@@ -1,5 +1,4 @@
 name: KubeSage Release
-
 on:
   workflow_dispatch:
     inputs:
@@ -11,15 +10,21 @@ on:
           - patch
           - minor
           - major
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  release:
-    name: Create release
+  prepare-release:
+    name: Prepare release
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -46,24 +51,97 @@ jobs:
       - name: Update package lock
         run: npm install --package-lock-only
 
-      - name: Commit version
+      - name: Create release branch
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
+          BRANCH="automation/release-v$VERSION"
+          git switch -c "$BRANCH"
           git add package.json package-lock.json
-          git commit -m "chore: release v$VERSION [skip ci]"
+          git commit -m "chore: release v$VERSION"
+          git push origin "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+        id: branch
+
+      - name: Create release pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          BRANCH: ${{ steps.branch.outputs.branch }}
+        run: |
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "chore: release v$VERSION" \
+            --body "$(cat <<EOF
+          ## KubeSage Web release
+
+          This PR prepares release **v$VERSION**.
+
+          ### Changes
+
+          - Bump \`package.json\` version to \`$VERSION\`
+          - Update \`package-lock.json\`
+
+          ### Validation
+
+          The regular CI pipeline must pass before merging this release.
+
+          Once merged, the release workflow will automatically:
+
+          - create tag \`v$VERSION\`;
+          - create the corresponding GitHub Release;
+          - trigger the Docker release workflow.
+          EOF
+          )"
+
+  publish-release:
+    name: Publish release
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'automation/release-v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid package version: $VERSION"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check tag does not already exist
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if git rev-parse "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "Tag v$VERSION already exists"
+            exit 1
+          fi
 
       - name: Create tag
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          git tag -a "v$VERSION" -m "KubeSage Web v$VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Push commit and tag
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-        run: |
-          git push origin main
+          git tag -a "v$VERSION" -m "KubeSage Web v$VERSION"
           git push origin "v$VERSION"
 
       - name: Create GitHub Release
