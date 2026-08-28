@@ -1,7 +1,7 @@
 name: KubeSage CI
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
