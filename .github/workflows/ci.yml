@@ -1,21 +1,41 @@
 name: KubeSage CI
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      js: ${{ steps.filter.outputs.js }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Detect changed files
+        uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            js:
+              - '**/*.ts'
+              - '**/*.tsx'
+              - 'package.json'
+              - 'tsconfig.json'
+              - 'tsconfig.node.json'
+              - 'vite.config.ts'
+              - 'tests/**'
+              - 'src/**'
+
   build:
+    if: needs.changes.outputs.js == 'true'
+    needs: changes
+
     name: Build frontend
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
 
@@ -54,21 +74,3 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
-
-  deploy:
-    if: github.event_name == 'push'
-    needs: build
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
