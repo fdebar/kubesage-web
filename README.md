@@ -1,4 +1,4 @@
-<h1 align="center">🤖 KubeSage Web</h1>
+# 🤖 KubeSage Web
 
 <p align="center">
   <img src="docs/kubesage-logo.png" alt="KubeSage Logo" width="280">
@@ -73,7 +73,9 @@ This repository contains the **KubeSage web application**.
 
 ---
 
-## 🚀 Live Demo
+## 🚀 Demo & Deployment
+
+### GitHub Pages Demo
 
 The frontend is publicly available through GitHub Pages:
 
@@ -87,21 +89,127 @@ The live demo runs in **Demo Mode** using realistic mock data.
 
 No Kubernetes cluster, observability stack or KubeSage API is required.
 
-This makes the application immediately accessible for:
+The GitHub Pages deployment is automatically triggered by pushes to the `main` branch.
 
-- exploring the UI;
-- demonstrating the project;
-- reviewing the incident investigation workflow;
-- evaluating the frontend architecture;
-- sharing KubeSage without deploying the complete platform.
+GitHub Pages is intended as a **public demonstration environment**. It is not the production deployment model for KubeSage.
 
-The demo is automatically deployed through **GitHub Actions** whenever changes are pushed to the main branch.
+### Docker / Kubernetes
+
+KubeSage Web can also be built and deployed as a Docker container.
+
+The production image uses a multi-stage build:
+
+```text
+React + Vite
+     │
+     │ npm run build
+     ▼
+Static assets
+     │
+     ▼
+Nginx
+     │
+     ▼
+Docker image
+```
+
+The runtime image contains only the generated frontend assets and Nginx.
+
+Release images are published to GitHub Container Registry (GHCR) and are intended to be deployed through the KubeSage GitOps repository using Argo CD.
+
+The Docker release workflow performs:
+
+* multi-architecture builds (`linux/amd64` and `linux/arm64`);
+* vulnerability scanning with Trivy;
+* SBOM generation;
+* provenance generation;
+* image signing with Cosign;
+* signature verification;
+* automatic GitOps update through a pull request.
+
+The release flow is therefore:
+
+```text
+Git tag
+   │
+   ▼
+GitHub Actions
+   │
+   ├── Build
+   ├── Security scan
+   ├── Publish to GHCR
+   ├── Sign image
+   └── Update GitOps
+          │
+          ▼
+        Argo CD
+          │
+          ▼
+      Kubernetes
+```
+
+The Docker image is designed to be environment-independent. Kubernetes-specific configuration such as routing is handled by the deployment layer rather than by the container image.
+
+---
+
+## ✨ Features
+
+### 📊 Cluster Dashboard
+
+The Dashboard provides a high-level overview of the current state of the environment, including:
+
+* cluster health;
+* resource information;
+* incident and finding counts;
+* findings summary;
+* key KubeSage indicators.
+
+The goal is to provide enough context to quickly identify whether further investigation is required.
+
+### 🔎 Findings Exploration
+
+Findings represent issues detected by KubeSage's diagnostic engine.
+
+They can be associated with different Kubernetes resources and signals, including:
+
+* Pods;
+* containers;
+* workloads;
+* resource usage;
+* Kubernetes events;
+* diagnostic rules.
+
+Findings are presented in a structured way so that engineers can quickly identify the most relevant problems.
+
+### 🧠 Incident Analysis
+
+The Analysis view presents the results of an individual KubeSage investigation.
+
+An analysis can combine information from multiple sources:
+
+* Kubernetes resources;
+* Prometheus metrics;
+* logs;
+* events;
+* diagnostic rules;
+* correlations between findings;
+* AI-assisted analysis.
+
+The goal is to provide context and relationships between signals rather than simply report an isolated alert.
+
+### 🕘 Analysis History
+
+The History view allows previously performed analyses to be explored and revisited.
+
+This provides a foundation for building a longer-term incident investigation workflow.
+
+### ⚙️ Settings
+
+The Settings view provides a dedicated place for application-level configuration exposed by the frontend.
 
 ---
 
 ## 📸 Interface
-
-KubeSage Web provides a dedicated interface for moving from a high-level cluster overview to detailed incident investigation.
 
 ### Dashboard
 
@@ -129,75 +237,18 @@ The History view provides access to previously performed analyses and allows eng
 
 ---
 
-## ✨ Features
-
-### 📊 Cluster Dashboard
-
-The Dashboard provides an overview of the current state of the environment, including:
-
-- cluster health;
-- resource information;
-- incident and finding counts;
-- findings summary;
-- key KubeSage indicators.
-
-The goal is to provide enough context to quickly identify whether further investigation is required.
-
-### 🔎 Findings Exploration
-
-Findings represent issues detected by KubeSage's diagnostic engine.
-
-They can be associated with different Kubernetes resources and signals, including:
-
-- Pods;
-- containers;
-- workloads;
-- resource usage;
-- Kubernetes events;
-- diagnostic rules.
-
-Findings are presented in a structured way so that engineers can quickly identify the most relevant problems.
-
-### 🧠 Incident Analysis
-
-The Analysis view presents the results of an individual KubeSage investigation.
-
-An analysis can combine information from multiple sources:
-
-- Kubernetes resources;
-- Prometheus metrics;
-- logs;
-- events;
-- diagnostic rules;
-- correlations between findings;
-- AI-assisted analysis.
-
-The goal is to provide context and relationships between signals rather than simply report an isolated alert.
-
-### 🕘 Analysis History
-
-The History view allows previously performed analyses to be explored and revisited.
-
-This provides a foundation for building a longer-term incident investigation workflow.
-
-### ⚙️ Settings
-
-The Settings view provides a dedicated place for application-level configuration exposed by the frontend.
-
----
-
 ## 🎮 Demo Mode
 
 KubeSage Web includes a **Demo Mode** powered by local mock data.
 
 Demo Mode makes it possible to explore the application without running:
 
-- a Kubernetes cluster;
-- the KubeSage API;
-- Prometheus;
-- Loki;
-- Tempo;
-- the rest of the KubeSage observability stack.
+* a Kubernetes cluster;
+* the KubeSage API;
+* Prometheus;
+* Loki;
+* Tempo;
+* the rest of the KubeSage observability stack.
 
 The mock data reproduces realistic application states so that the complete frontend experience can be explored independently of the backend.
 
@@ -205,12 +256,12 @@ Demo Mode is used by the public GitHub Pages deployment.
 
 It is also useful for:
 
-- local frontend development;
-- UI development;
-- demonstrations;
-- screenshots;
-- testing application states;
-- evaluating the project without deploying the complete KubeSage platform.
+* local frontend development;
+* UI development;
+* demonstrations;
+* screenshots;
+* testing application states;
+* evaluating the project without deploying the complete KubeSage platform.
 
 ---
 
@@ -225,6 +276,9 @@ It is also useful for:
 | **shadcn/ui**      | Reusable UI components               |
 | **TanStack Query** | Server-state management and caching  |
 | **React Router**   | Application routing                  |
+| **Axios**          | HTTP client                          |
+| **Nginx**          | Production static file server        |
+| **Docker**         | Production containerization          |
 | **npm**            | Package management                   |
 
 The application follows a component-based architecture with feature-oriented organization where appropriate.
@@ -265,7 +319,13 @@ src/
 └── main.tsx
 ```
 
-The exact structure may evolve as the frontend grows.
+The repository also contains the production container configuration:
+
+```text
+Dockerfile
+.dockerignore
+nginx.conf
+```
 
 Mock data is kept independently from application logic so that Demo Mode can reproduce realistic application states without requiring the backend.
 
@@ -303,16 +363,21 @@ The public demo does **not** use this API and runs entirely in Demo Mode.
 
 ### Prerequisites
 
-Make sure the following are installed:
+For local frontend development, make sure the following are installed:
 
-- Node.js
-- npm
+* Node.js
+* npm
+
+For local container testing:
+
+* Docker
 
 Check your installed versions:
 
 ```bash
 node --version
 npm --version
+docker --version
 ```
 
 ### Clone the repository
@@ -352,6 +417,30 @@ No KubeSage API or Kubernetes cluster is required.
 
 ---
 
+## 🐳 Run with Docker
+
+Build the production image locally:
+
+```bash
+docker build -t kubesage-web:local .
+```
+
+Run the container:
+
+```bash
+docker run --rm -p 8080:80 kubesage-web:local
+```
+
+The application is then available at:
+
+```text
+http://localhost:8080
+```
+
+The production image serves the Vite-generated static assets through Nginx and supports client-side routing.
+
+---
+
 ## ⚙️ Configuration
 
 KubeSage Web supports different data sources depending on the environment.
@@ -362,25 +451,53 @@ For Demo Mode:
 VITE_DATA_SOURCE=demo
 ```
 
-When connecting the frontend to a real KubeSage API, configure the API endpoint through an environment variable.
-
-For example:
+When connecting the frontend to a real KubeSage API:
 
 ```env
 VITE_DATA_SOURCE=api
-VITE_API_URL=http://localhost:8000/v1/api
+VITE_API_URL=http://localhost:8000/api/v1
 ```
 
 For a remotely deployed API:
 
 ```env
 VITE_DATA_SOURCE=api
-VITE_API_URL=https://kubesage-api.example.com/v1/api
+VITE_API_URL=https://kubesage-api.example.com/api/v1
 ```
 
-> `VITE_API_URL` is a frontend configuration value and must not contain secrets.
+`VITE_API_URL` is a frontend build-time configuration value and must not contain secrets.
 
-The exact data-source configuration is defined by the application's current configuration.
+### Vite base path
+
+GitHub Pages serves the application under `/kubesage-web/`, therefore the GitHub Pages build uses:
+
+```env
+VITE_BASE_PATH=/kubesage-web/
+```
+
+The Dockerized application is served from the root path and therefore uses:
+
+```env
+VITE_BASE_PATH=/
+```
+
+### Kubernetes routing
+
+For Kubernetes deployments, the preferred architecture is to expose the frontend and API through the same host and route API requests through the Ingress.
+
+For example:
+
+```text
+https://kubesage.local/
+        │
+        ├── /*      → KubeSage Web
+        │
+        └── /api/*  → KubeSage API
+```
+
+This architecture allows the frontend to use a relative API path and keeps the Docker image independent from the target Kubernetes environment.
+
+The Ingress-based routing is the target deployment architecture and is separate from the current GitHub Pages demo.
 
 ---
 
@@ -424,11 +541,12 @@ The resulting files are generated in:
 dist/
 ```
 
-The application is a client-side single-page application and can be served by a web server capable of handling SPA routing.
+The application is a client-side single-page application and is served in production by Nginx when using the Docker image.
 
-The repository also includes a GitHub Actions workflow that builds and deploys the Demo Mode application to GitHub Pages.
+The repository provides two deployment paths:
 
-> Docker is not currently required for the frontend.
+* **GitHub Pages** for the public Demo Mode deployment on pushes to `main`;
+* **Docker / GHCR / Kubernetes** for versioned production releases.
 
 ---
 
@@ -442,21 +560,72 @@ Typical checks include:
 
 ```bash
 npm run lint
-npm run build
+npm run format:check
 npm run spellcheck
+npm run build
 ```
 
 Formatting is handled with **Prettier**, while **ESLint** provides static analysis and **CSpell** checks source files for spelling issues.
 
-The CI pipeline runs the project's validation checks before changes are merged.
+The CI pipeline runs the project's validation checks before changes are merged and deploys the Demo Mode application to GitHub Pages from `main`.
+
+---
 
 ## 📦 Releases
 
-KubeSage Web follows [Semantic Versioning](https://semver.org/).
+KubeSage Web follows **Semantic Versioning**.
 
-Current version: **v0.1.0**
+A release is created through the dedicated GitHub Actions release workflow.
 
-Releases are published as Git tags and deployed automatically to the public demo.
+The release workflow:
+
+1. updates the application version;
+2. creates the corresponding Git tag;
+3. publishes a GitHub Release.
+
+The version tag then triggers the Docker release workflow.
+
+The Docker workflow builds and publishes the corresponding container image to GHCR:
+
+```text
+ghcr.io/fdebar/kubesage-web:vX.Y.Z
+ghcr.io/fdebar/kubesage-web:<commit-sha>
+```
+
+The Docker release workflow also:
+
+* scans the image with Trivy;
+* generates an SBOM;
+* generates provenance metadata;
+* signs the image with Cosign;
+* verifies the image signature;
+* updates the KubeSage GitOps repository with the new image tag and digest.
+
+The resulting deployment flow is:
+
+```text
+Release
+   │
+   ▼
+Git tag
+   │
+   ▼
+Docker release
+   │
+   ├── GHCR
+   ├── Cosign
+   └── GitOps PR
+          │
+          ▼
+        Argo CD
+          │
+          ▼
+      Kubernetes
+```
+
+GitHub Pages is intentionally **not part of the tag-based Docker release workflow**.
+
+The public demo is continuously deployed from the `main` branch.
 
 ---
 
@@ -466,15 +635,16 @@ KubeSage Web will evolve alongside the platform's incident investigation capabil
 
 Planned improvements include:
 
-- richer dashboard visualizations;
-- deeper incident context;
-- improved findings exploration;
-- richer analysis details;
-- visualization of finding correlations;
-- deeper integration with logs and traces;
-- improved incident investigation workflows;
-- expanded AI-assisted analysis;
-- additional observability context.
+* richer dashboard visualizations;
+* deeper incident context;
+* improved findings exploration;
+* richer analysis details;
+* visualization of finding correlations;
+* deeper integration with logs and traces;
+* improved incident investigation workflows;
+* expanded AI-assisted analysis;
+* additional observability context;
+* Kubernetes-native deployment through Helm, Ingress and Argo CD.
 
 The long-term goal is to evolve KubeSage from a monitoring-oriented interface into a **dedicated Kubernetes incident investigation console**.
 
