@@ -119,13 +119,13 @@ Release images are published to GitHub Container Registry (GHCR) and are intende
 
 The Docker release workflow performs:
 
-* multi-architecture builds (`linux/amd64` and `linux/arm64`);
-* vulnerability scanning with Trivy;
-* SBOM generation;
-* provenance generation;
-* image signing with Cosign;
-* signature verification;
-* automatic GitOps update through a pull request.
+- multi-architecture builds (`linux/amd64` and `linux/arm64`);
+- vulnerability scanning with Trivy;
+- SBOM generation;
+- provenance generation;
+- image signing with Cosign;
+- signature verification;
+- automatic GitOps update through a pull request.
 
 The release flow is therefore:
 
@@ -158,11 +158,11 @@ The Docker image is designed to be environment-independent. Kubernetes-specific 
 
 The Dashboard provides a high-level overview of the current state of the environment, including:
 
-* cluster health;
-* resource information;
-* incident and finding counts;
-* findings summary;
-* key KubeSage indicators.
+- cluster health;
+- resource information;
+- incident and finding counts;
+- findings summary;
+- key KubeSage indicators.
 
 The goal is to provide enough context to quickly identify whether further investigation is required.
 
@@ -172,12 +172,12 @@ Findings represent issues detected by KubeSage's diagnostic engine.
 
 They can be associated with different Kubernetes resources and signals, including:
 
-* Pods;
-* containers;
-* workloads;
-* resource usage;
-* Kubernetes events;
-* diagnostic rules.
+- Pods;
+- containers;
+- workloads;
+- resource usage;
+- Kubernetes events;
+- diagnostic rules.
 
 Findings are presented in a structured way so that engineers can quickly identify the most relevant problems.
 
@@ -187,13 +187,13 @@ The Analysis view presents the results of an individual KubeSage investigation.
 
 An analysis can combine information from multiple sources:
 
-* Kubernetes resources;
-* Prometheus metrics;
-* logs;
-* events;
-* diagnostic rules;
-* correlations between findings;
-* AI-assisted analysis.
+- Kubernetes resources;
+- Prometheus metrics;
+- logs;
+- events;
+- diagnostic rules;
+- correlations between findings;
+- AI-assisted analysis.
 
 The goal is to provide context and relationships between signals rather than simply report an isolated alert.
 
@@ -243,12 +243,12 @@ KubeSage Web includes a **Demo Mode** powered by local mock data.
 
 Demo Mode makes it possible to explore the application without running:
 
-* a Kubernetes cluster;
-* the KubeSage API;
-* Prometheus;
-* Loki;
-* Tempo;
-* the rest of the KubeSage observability stack.
+- a Kubernetes cluster;
+- the KubeSage API;
+- Prometheus;
+- Loki;
+- Tempo;
+- the rest of the KubeSage observability stack.
 
 The mock data reproduces realistic application states so that the complete frontend experience can be explored independently of the backend.
 
@@ -256,12 +256,12 @@ Demo Mode is used by the public GitHub Pages deployment.
 
 It is also useful for:
 
-* local frontend development;
-* UI development;
-* demonstrations;
-* screenshots;
-* testing application states;
-* evaluating the project without deploying the complete KubeSage platform.
+- local frontend development;
+- UI development;
+- demonstrations;
+- screenshots;
+- testing application states;
+- evaluating the project without deploying the complete KubeSage platform.
 
 ---
 
@@ -365,12 +365,12 @@ The public demo does **not** use this API and runs entirely in Demo Mode.
 
 For local frontend development, make sure the following are installed:
 
-* Node.js
-* npm
+- Node.js
+- npm
 
 For local container testing:
 
-* Docker
+- Docker
 
 Check your installed versions:
 
@@ -545,8 +545,8 @@ The application is a client-side single-page application and is served in produc
 
 The repository provides two deployment paths:
 
-* **GitHub Pages** for the public Demo Mode deployment on pushes to `main`;
-* **Docker / GHCR / Kubernetes** for versioned production releases.
+- **GitHub Pages** for the public Demo Mode deployment on pushes to `main`;
+- **Docker / GHCR / Kubernetes** for versioned production releases.
 
 ---
 
@@ -594,12 +594,12 @@ ghcr.io/fdebar/kubesage-web:<commit-sha>
 
 The Docker release workflow also:
 
-* scans the image with Trivy;
-* generates an SBOM;
-* generates provenance metadata;
-* signs the image with Cosign;
-* verifies the image signature;
-* updates the KubeSage GitOps repository with the new image tag and digest.
+- scans the image with Trivy;
+- generates an SBOM;
+- generates provenance metadata;
+- signs the image with Cosign;
+- verifies the image signature;
+- updates the KubeSage GitOps repository with the new image tag and digest.
 
 The resulting deployment flow is:
 
@@ -635,16 +635,16 @@ KubeSage Web will evolve alongside the platform's incident investigation capabil
 
 Planned improvements include:
 
-* richer dashboard visualizations;
-* deeper incident context;
-* improved findings exploration;
-* richer analysis details;
-* visualization of finding correlations;
-* deeper integration with logs and traces;
-* improved incident investigation workflows;
-* expanded AI-assisted analysis;
-* additional observability context;
-* Kubernetes-native deployment through Helm, Ingress and Argo CD.
+- richer dashboard visualizations;
+- deeper incident context;
+- improved findings exploration;
+- richer analysis details;
+- visualization of finding correlations;
+- deeper integration with logs and traces;
+- improved incident investigation workflows;
+- expanded AI-assisted analysis;
+- additional observability context;
+- Kubernetes-native deployment through Helm, Ingress and Argo CD.
 
 The long-term goal is to evolve KubeSage from a monitoring-oriented interface into a **dedicated Kubernetes incident investigation console**.
 
