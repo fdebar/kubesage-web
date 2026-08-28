@@ -1,10 +1,10 @@
 name: KubeSage CI
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -16,6 +16,8 @@ jobs:
   build:
     name: Build frontend
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
@@ -54,8 +56,13 @@ jobs:
           path: ./dist
 
   deploy:
+    if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
 
     environment:
       name: github-pages
