@@ -3,6 +3,7 @@ import type { AnalysisDetail } from '@/types/analysis';
 export const crashLoopAnalysisMock: AnalysisDetail = {
   id: 'analysis-001',
   created_at: '2026-08-18T14:32:00Z',
+  trace_id: null,
   duration_ms: 18432,
   incident: {
     namespace: 'production',

@@ -60,6 +60,7 @@ export interface AnalysisDetail {
   report: AIReport | null;
   created_at: string;
   duration_ms: number;
+  trace_id: string | null;
 }
 
 export interface ContainerStatus {
@@ -103,6 +104,7 @@ export interface AnalysisSummary {
   findings_count: number;
   duration_ms: number;
   created_at: string;
+  trace_id: string | null;
 }
 
 export interface AnalysisListResponse {

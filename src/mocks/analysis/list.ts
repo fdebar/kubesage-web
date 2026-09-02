@@ -4,6 +4,7 @@ export const analysisListMock: AnalysisListResponse = {
   items: [
     {
       id: 'analysis-001',
+      trace_id: null,
       namespace: 'production',
       pod: 'payment-service-7c48f4b7c6-2xf8n',
       phase: 'CrashLoopBackOff',
@@ -15,6 +16,7 @@ export const analysisListMock: AnalysisListResponse = {
     },
     {
       id: 'analysis-002',
+      trace_id: null,
       namespace: 'production',
       pod: 'recommendation-engine-6f8c9d7f4b-k2m9p',
       phase: 'Running',
@@ -26,6 +28,7 @@ export const analysisListMock: AnalysisListResponse = {
     },
     {
       id: 'analysis-003',
+      trace_id: null,
       namespace: 'staging',
       pod: 'user-api-7d6f8b9c5d-r7x2m',
       phase: 'Running',

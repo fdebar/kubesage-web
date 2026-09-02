@@ -3,6 +3,7 @@ import type { AnalysisDetail } from '@/types/analysis';
 export const cpuThrottlingAnalysisMock: AnalysisDetail = {
   id: 'analysis-002',
   created_at: '2026-08-18T11:08:00Z',
+  trace_id: null,
   duration_ms: 12341,
   incident: {
     namespace: 'production',

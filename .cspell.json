@@ -8,6 +8,7 @@
     "Grafana",
     "OpenTelemetry",
     "shadcn",
+    "traceql",
     "TanStack",
     "crashloop",
     "oomkilled",
