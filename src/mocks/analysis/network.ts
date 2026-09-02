@@ -2,6 +2,7 @@ import type { AnalysisDetail } from '@/types/analysis';
 
 export const networkFailureAnalysisMock: AnalysisDetail = {
   id: 'analysis-003',
+  trace_id: null,
   created_at: '2026-08-17T18:44:00Z',
   duration_ms: 9876,
   incident: {
