@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { SeverityBadge } from '@/components/common/SeverityBadge';
 import { observabilityConfig, buildTempoTraceUrl } from '@/config/observability';
 import type { AnalysisDetail } from '@/types/analysis';
+import { format } from '@/lib/duration';
 
 interface AnalysisHeaderProps {
   analysis: AnalysisDetail;
@@ -31,7 +32,7 @@ export function AnalysisHeader({ analysis }: AnalysisHeaderProps) {
 
           <div>
             <p className="text-muted-foreground text-sm">Duration</p>
-            <p className="font-medium">{analysis.duration_ms} ms</p>
+            <p className="font-medium">{format(analysis.duration_ms)}</p>
           </div>
 
           <div>

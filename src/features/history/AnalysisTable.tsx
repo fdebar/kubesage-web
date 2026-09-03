@@ -7,6 +7,7 @@ import { StatusBadge } from '@/components/common/StatusBadge';
 import { Button } from '@/components/ui/button';
 import type { Status } from '@/types/status';
 import { observabilityConfig, buildTempoTraceUrl } from '@/config/observability';
+import { format } from '@/lib/duration';
 
 interface Props {
   analyses: AnalysisSummary[];
@@ -54,7 +55,7 @@ export function AnalysisTable({ analyses }: Props) {
 
                 <td className="p-3">{analysis.findings_count}</td>
 
-                <td className="p-3">{analysis.duration_ms} ms</td>
+                <td className="p-3">{format(analysis.duration_ms)}</td>
 
                 <td className="p-3">
                   {analysis.trace_id ? (

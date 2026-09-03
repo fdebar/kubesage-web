@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Box, Server, Activity, Clock3 } from '@/lib/icons';
 
 import type { AnalysisDetail } from '@/types/analysis';
+import { format } from '@/lib/duration';
 
 interface IncidentSummaryCardProps {
   analysis: AnalysisDetail;
@@ -18,7 +19,7 @@ export const IncidentSummaryCard = ({ analysis }: IncidentSummaryCardProps) => (
       <SummaryItem icon={Box} label="Namespace" value={analysis.incident.namespace} />
       <SummaryItem icon={Server} label="Pod" value={analysis.incident.pod} />
       <SummaryItem icon={Activity} label="Phase" value={analysis.incident.phase} />
-      <SummaryItem icon={Clock3} label="Duration" value={`${analysis.duration_ms} ms`} />
+      <SummaryItem icon={Clock3} label="Duration" value={format(analysis.duration_ms)} />
     </CardContent>
   </Card>
 );
