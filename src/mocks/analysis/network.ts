@@ -107,10 +107,25 @@ export const networkFailureAnalysisMock: AnalysisDetail = {
     summary: 'KubeSage detected service connectivity problems affecting the user-api pod.',
     root_cause:
       'The incident is most likely related to DNS resolution failures within the staging cluster, resulting in service connection timeouts.',
+    confidence: 0.95,
+    impact:
+      'Requests from user-api to affected internal services may fail or experience increased latency.',
     evidence: [
-      '37 DNS resolution errors were detected.',
-      '18 service connection timeouts were observed.',
-      'The affected pod remained healthy from a CPU and memory perspective.',
+      {
+        id: 'dns-errors',
+        description: '37 DNS resolution errors were detected.',
+        source: 'loki',
+      },
+      {
+        id: 'connection-timeouts',
+        description: '18 service connection timeouts were observed.',
+        source: 'loki',
+      },
+      {
+        id: 'resource-health',
+        description: 'The affected pod remained healthy from a CPU and memory perspective.',
+        source: 'prometheus',
+      },
     ],
     recommendations: [
       'Check CoreDNS health and logs.',
@@ -123,4 +138,6 @@ export const networkFailureAnalysisMock: AnalysisDetail = {
       'Check recent networking configuration changes.',
     ],
   },
+  correlations: [],
+  root_causes: [],
 };

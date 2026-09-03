@@ -5,6 +5,8 @@ export type FindingKind = 'observation' | 'diagnosis';
 export type EvidenceType =
   'metric' | 'log' | 'event' | 'pod_state' | 'container_state' | 'correlation' | 'threshold';
 
+export type CorrelationType = 'related' | 'caused_by';
+
 export interface ResourceRef {
   api_version: string | null;
   kind: string;
@@ -45,18 +47,45 @@ export interface Incident {
   metrics: PodMetrics | null;
 }
 
+export interface EvidenceReference {
+  id: string;
+  description: string | null;
+  source: string | null;
+}
+
 export interface AIReport {
   summary: string;
   root_cause: string | null;
-  evidence: string[];
+  confidence: number | null;
+  impact: string | null;
+  evidence: EvidenceReference[];
   recommendations: string[];
   additional_investigations: string[];
+}
+
+export interface Correlation {
+  source_finding: string;
+  target_finding: string;
+  type: CorrelationType;
+  confidence: number;
+  evidence: string[];
+}
+
+export interface RootCauseCandidate {
+  finding: string;
+  title: string;
+  description: string;
+  confidence: number;
+  supporting_findings: string[];
+  supporting_evidence: string[];
 }
 
 export interface AnalysisDetail {
   id: string;
   incident: Incident;
   findings: FindingDetail[];
+  correlations: Correlation[];
+  root_causes: RootCauseCandidate[];
   report: AIReport | null;
   created_at: string;
   duration_ms: number;

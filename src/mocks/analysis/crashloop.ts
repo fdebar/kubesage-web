@@ -164,11 +164,30 @@ export const crashLoopAnalysisMock: AnalysisDetail = {
       'KubeSage detected a CrashLoopBackOff caused by repeated OOMKilled events in the payment-service container.',
     root_cause:
       'The payment-service container exceeded its 2 GiB memory limit. The evidence suggests abnormal memory growth following the deployment of version 2.4.1.',
+    confidence: 0.97,
+    impact:
+      'The payment-service workload is unavailable and repeatedly restarting, causing payment requests to fail.',
     evidence: [
-      '247 container restarts were detected.',
-      'The last container termination reason was OOMKilled.',
-      'Memory usage reached approximately 97% of the configured limit.',
-      'The affected container is running payment-service version 2.4.1.',
+      {
+        id: 'restart-count',
+        description: '247 container restarts were detected.',
+        source: 'kubernetes',
+      },
+      {
+        id: 'last-exit-reason',
+        description: 'The last container termination reason was OOMKilled.',
+        source: 'kubernetes',
+      },
+      {
+        id: 'memory-usage',
+        description: 'Memory usage reached approximately 97% of the configured limit.',
+        source: 'prometheus',
+      },
+      {
+        id: 'container-version',
+        description: 'The affected container is running payment-service version 2.4.1.',
+        source: 'kubernetes',
+      },
     ],
     recommendations: [
       'Rollback payment-service to version 2.4.0.',
@@ -181,4 +200,6 @@ export const crashLoopAnalysisMock: AnalysisDetail = {
       'Review recent code changes related to memory allocation.',
     ],
   },
+  correlations: [],
+  root_causes: [],
 };

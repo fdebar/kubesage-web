@@ -107,10 +107,25 @@ export const cpuThrottlingAnalysisMock: AnalysisDetail = {
       'KubeSage detected significant CPU throttling affecting the recommendation-engine workload.',
     root_cause:
       'The container is consistently consuming almost its entire CPU limit, resulting in CPU throttling and degraded application performance.',
+    confidence: 0.96,
+    impact:
+      'CPU throttling may increase application latency and reduce the throughput of the recommendation-engine workload.',
     evidence: [
-      'CPU usage reached 97% of the configured limit.',
-      'CPU throttling ratio reached 42%.',
-      'The affected container has not restarted.',
+      {
+        id: 'cpu-usage',
+        description: 'CPU usage reached 97% of the configured limit.',
+        source: 'prometheus',
+      },
+      {
+        id: 'cpu-throttling-ratio',
+        description: 'CPU throttling ratio reached 42%.',
+        source: 'prometheus',
+      },
+      {
+        id: 'container-restarts',
+        description: 'The affected container has not restarted.',
+        source: 'kubernetes',
+      },
     ],
     recommendations: [
       'Review the CPU limit configured for the workload.',
@@ -122,4 +137,6 @@ export const cpuThrottlingAnalysisMock: AnalysisDetail = {
       'Review recent workload changes.',
     ],
   },
+  correlations: [],
+  root_causes: [],
 };
