@@ -13,6 +13,7 @@ export interface WatcherIncident {
   resolved_at: string | null;
   last_resource_version: string | null;
   message: string | null;
+  analysis_id: string | null;
 }
 
 export interface WatcherIncidentsResponse {

@@ -6,7 +6,7 @@ export const mockWatcherIncidents: WatcherIncident[] = [
   {
     id: 'demo-incident-1',
     namespace: 'production',
-    pod: 'checkout-api-7f8d9c6b4f-k2m8q',
+    pod: 'payment-service-7c48f4b7c6-2xf8n',
     pod_uid: 'demo-pod-uid-1',
     reason: 'CrashLoopBackOff',
     status: 'active',
@@ -15,6 +15,7 @@ export const mockWatcherIncidents: WatcherIncident[] = [
     resolved_at: null,
     last_resource_version: '184209',
     message: 'Container is in CrashLoopBackOff',
+    analysis_id: 'analysis-001',
   },
   {
     id: 'demo-incident-2',
@@ -28,6 +29,7 @@ export const mockWatcherIncidents: WatcherIncident[] = [
     resolved_at: null,
     last_resource_version: '184002',
     message: 'Container killed because of memory limit',
+    analysis_id: null,
   },
   {
     id: 'demo-incident-3',
@@ -41,6 +43,7 @@ export const mockWatcherIncidents: WatcherIncident[] = [
     resolved_at: new Date(now - 3 * 60 * 60_000).toISOString(),
     last_resource_version: '181337',
     message: 'Container is in ImagePullBackOff',
+    analysis_id: null,
   },
   {
     id: 'demo-incident-4',
@@ -54,6 +57,7 @@ export const mockWatcherIncidents: WatcherIncident[] = [
     resolved_at: new Date(now - 8 * 60 * 60_000).toISOString(),
     last_resource_version: '179240',
     message: 'Container is in CrashLoopBackOff',
+    analysis_id: null,
   },
 ];
 

@@ -7,6 +7,7 @@ import { Pagination } from '@/components/common/Pagination';
 import { Button } from '@/components/ui/button';
 import { useWatcherIncidents } from '@/hooks/useWatcherIncidents';
 import { formatDate } from '@/lib/date';
+import { Link } from 'react-router-dom';
 import type { WatcherIncidentStatusFilter } from '@/types/watcherIncident';
 
 const pageSize = 10;
@@ -114,6 +115,7 @@ export function IncidentsPage() {
                     <th className="px-4 py-3 font-medium">Detected</th>
                     <th className="px-4 py-3 font-medium">Last seen</th>
                     <th className="px-4 py-3 font-medium">Resolved</th>
+                    <th className="px-4 py-3 font-medium">Analysis</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
@@ -148,6 +150,18 @@ export function IncidentsPage() {
                       </td>
                       <td className="text-muted-foreground px-4 py-4 whitespace-nowrap">
                         {incident.resolved_at ? formatDate(incident.resolved_at) : '—'}
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap">
+                        {incident.analysis_id ? (
+                          <Link
+                            to={`/analyses/${incident.analysis_id}`}
+                            className="text-primary font-medium hover:underline"
+                          >
+                            Open analysis
+                          </Link>
+                        ) : (
+                          <span className="text-muted-foreground text-xs">No analysis yet</span>
+                        )}
                       </td>
                     </tr>
                   ))}
