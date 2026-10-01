@@ -1,4 +1,4 @@
-import { Activity, Clock3, Settings, ShieldCheck } from '@/lib/icons';
+import { Activity, Bell, Clock3, Settings, ShieldCheck } from '@/lib/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDashboard } from '@/hooks/useDashboard';
 import { DemoBadge } from '@/components/ui/DemoBadge';
@@ -14,6 +14,11 @@ const navigation = [
     label: 'Findings',
     path: '/findings',
     icon: ShieldCheck,
+  },
+  {
+    label: 'Incidents',
+    path: '/incidents',
+    icon: Bell,
   },
   {
     label: 'History',

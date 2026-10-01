@@ -6,6 +6,7 @@ import { SettingsPage } from '@/features/settings/SettingsPage';
 import { AppShell } from '@/components/layout/AppShell';
 import { AnalysisDetailPage } from '@/features/analyses/AnalysisDetailPage';
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
+import { IncidentsPage } from '@/features/incidents/IncidentsPage';
 
 export const router = createBrowserRouter(
   [
@@ -23,6 +24,10 @@ export const router = createBrowserRouter(
         {
           path: '/findings',
           element: <FindingsPage />,
+        },
+        {
+          path: '/incidents',
+          element: <IncidentsPage />,
         },
         {
           path: '/history',
